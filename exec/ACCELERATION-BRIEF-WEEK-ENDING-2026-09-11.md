@@ -105,7 +105,7 @@
 | Chase business Zelle | **Checklist only** | Not live |
 | UPS PMB non-home | **Address locked** | Not rented |
 | Domain goclearstack.com | **Recommended** | Not bought |
-| “Full operational launch by Friday” | **Stretch** | Align expectation: soft-live + pipeline this week; hardened continues into next week if bank slips |
+| “Full operational launch by Friday” | **Stretch** | **LOCKED 2026-09-06:** Friday bar = **SOFT** (Mina confirmed).
 
 ### Immediate clarifications needed from you
 Reply with one line each:
@@ -203,3 +203,7 @@ Money Maker owns the machine and calendar. Market Research owns organic ads/segm
 **New gap from CoS Drive audit:** Folder `01_Business_and_Engineering` still holds drafts titled “Fakhouri Consulting — Sell Pack / Capability Exhibit” (+ Empire Adds / job machine artifacts). **Action:** rename/rebrand or move client-facing copies to ClearStack-only titles before any external share (Money Maker + CoS Drive tidy).
 
 **CoS does not own:** ClearStack pricing/ICP/funnel/hosting/Stripe SKUs / Fri launch checklist — those sit with Money Maker + Market Research + Accounting.
+
+
+## LOCK 2026-09-06 — Friday bar = **SOFT**
+Mina confirmed. Domain/.com deferred unless upgraded. Critical path: Zelle · SEND 1-4 · inbox · PMB #.
