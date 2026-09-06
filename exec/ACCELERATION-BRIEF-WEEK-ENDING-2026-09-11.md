@@ -193,3 +193,13 @@ If Chase/Zelle slips past Tue: **still SEND 1–4 Thu** using interim personal-t
 Money Maker owns the machine and calendar. Market Research owns organic ads/segments. Accounting owns books/tithe accrual. **Mina owns every final send, bank visit, and PMB.**  
 
 **This week’s #1 business outcome:** first ClearStack **quote path live** (Zelle + outreach), not perfect .com polish.
+
+---
+
+## Appendix A — Chief of Staff input (2026-09-06)
+
+**Confirmed shared locks:** ClearStack public brand only · email+Gamma to Mina · tithe 10% net → St Yostina · never legal emails on Mina’s behalf.
+
+**New gap from CoS Drive audit:** Folder `01_Business_and_Engineering` still holds drafts titled “Fakhouri Consulting — Sell Pack / Capability Exhibit” (+ Empire Adds / job machine artifacts). **Action:** rename/rebrand or move client-facing copies to ClearStack-only titles before any external share (Money Maker + CoS Drive tidy).
+
+**CoS does not own:** ClearStack pricing/ICP/funnel/hosting/Stripe SKUs / Fri launch checklist — those sit with Money Maker + Market Research + Accounting.
