@@ -1,16 +1,18 @@
 :root {
-  --navy: #0a1628;
-  --navy-mid: #12233d;
-  --navy-soft: #1a3355;
-  --gold: #c9a227;
-  --gold-light: #e0c35a;
-  --gold-dim: rgba(201, 162, 39, 0.16);
-  --gold-line: rgba(201, 162, 39, 0.38);
-  --cream: #f5f0e6;
-  --cream-dark: #e8e0d0;
-  --ink: #1a1a1a;
-  --muted: #5a6570;
+  --navy: #071833;
+  --navy-mid: #143056;
+  --navy-soft: #1e4570;
+  --gold: #f0c43a;
+  --gold-light: #ffe28a;
+  --gold-dim: rgba(240, 196, 58, 0.22);
+  --gold-line: rgba(240, 196, 58, 0.55);
+  --cream: #fffaf0;
+  --cream-dark: #f0e6d4;
+  --ink: #0f1720;
+  --muted: #4a5a6a;
   --white: #fff;
+  --teal: #2ec4b6;
+  --teal-dim: rgba(46, 196, 182, 0.16);
   --shadow: 0 12px 40px rgba(10, 22, 40, 0.1);
   --shadow-sm: 0 4px 16px rgba(10, 22, 40, 0.06);
   --radius: 14px;
@@ -25,6 +27,7 @@ html { scroll-behavior: smooth; }
 body {
   font-family: var(--font-sans);
   background: var(--cream);
+  background-image: linear-gradient(180deg, #fffefb 0%, var(--cream) 120px);
   color: var(--ink);
   line-height: 1.65;
   min-height: 100vh;
@@ -64,8 +67,15 @@ ul { list-style: none; }
   line-height: 0;
 }
 .logo:hover { opacity: 0.92; }
+.logo { gap: 0.65rem; }
+.logo-mark {
+  height: 42px;
+  width: 42px;
+  flex-shrink: 0;
+  filter: drop-shadow(0 0 8px rgba(240, 196, 58, 0.35));
+}
 .logo-wordmark {
-  height: 38px;
+  height: 42px;
   width: auto;
 }
 .nav-toggle {
