@@ -18,7 +18,7 @@ Optional flash drive mailer: **+$35**. Standard turnaround 5–7 business days a
 
 **To start:** 50% deposit — **$[deposit]**.  
 We accept card (Payment Link) or bank-to-bank via Zelle.  
-For clients who prefer Zelle for the deposit, we apply a **$50 intake courtesy** on that deposit — same package and same deliverables.
+For clients who prefer Zelle for the deposit: **$50 intake courtesy only when the deposit is over $50** (≤50 page package = full deposit, no courtesy). Same package and deliverables.
 
 Reply with your preferred intake (mail-in / drop-off appointment / secure upload) and whether you’d like the flash drive. We’ll send packing steps and your ClearStack job ID.
 
@@ -38,7 +38,7 @@ Glad to move forward. Your job ID is **[CS-ID]**.
 
 **Package:** [name] — $[price]  
 **Deposit due (50%):** $[deposit]  
-**Zelle deposit with intake courtesy:** $[deposit − 50] (same package; $20 courtesy applies to the deposit only)  
+**Zelle deposit with intake courtesy:** $[deposit − 50] (same package; Rule A: $50 courtesy only if deposit > $50; ≤50 = full deposit)  
 **Card / Payment Link:** $[deposit] (link: [URL when live])
 
 **Zelle:** After you confirm, we’ll reply with the exact ClearStack Zelle details for this job. Please include **[CS-ID]** in the memo.
