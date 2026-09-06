@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <rect width="1200" height="630" fill="#0a1628"/>
+  <line x1="80" y1="80" x2="1120" y2="80" stroke="#c9a227" stroke-width="1" opacity="0.35"/>
+  <line x1="80" y1="550" x2="1120" y2="550" stroke="#c9a227" stroke-width="1" opacity="0.35"/>
+  <rect x="80" y="180" width="88" height="88" rx="18" fill="#12233d"/>
+  <rect x="80.5" y="180.5" width="87" height="87" rx="17.5" fill="none" stroke="#c9a227" stroke-width="1" opacity="0.4"/>
+  <rect x="96" y="200" width="36" height="7" rx="3.5" fill="#c9a227"/>
+  <rect x="96" y="215" width="48" height="7" rx="3.5" fill="#c9a227" opacity="0.85"/>
+  <rect x="96" y="230" width="28" height="7" rx="3.5" fill="#c9a227" opacity="0.65"/>
+  <circle cx="148" cy="242" r="12" fill="none" stroke="#c9a227" stroke-width="3.5"/>
+  <path d="M156.5 250.5 L164 258" stroke="#c9a227" stroke-width="3.5" stroke-linecap="round"/>
+  <text x="200" y="240" font-family="system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif" font-size="56" font-weight="700" letter-spacing="-1">
+    <tspan fill="#c9a227">Clear</tspan><tspan fill="#f5f0e6">Stack</tspan>
+  </text>
+  <text x="80" y="360" font-family="Georgia, Times New Roman, serif" font-size="42" fill="#ffffff">Messy stack in. Clear packet out.</text>
+  <text x="80" y="420" font-family="system-ui,sans-serif" font-size="24" fill="#f5f0e6" opacity="0.75">Document → searchable PDF packages · Count-based pricing</text>
+</svg>

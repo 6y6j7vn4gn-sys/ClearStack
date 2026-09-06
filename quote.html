@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Request a ClearStack searchable digital book quote. Explain what you want.">
+<meta name="theme-color" content="#0a1628">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ClearStack">
+<meta property="og:title" content="ClearStack — Messy stack in. Clear packet out.">
+<meta property="og:description" content="ClearStack turns binders and boxes into organized, searchable PDF packages. Count-based pricing. Mail-back available.">
+<meta property="og:image" content="brand/exports/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="ClearStack — Messy stack in. Clear packet out.">
+<meta name="twitter:description" content="ClearStack turns binders and boxes into organized, searchable PDF packages. Count-based pricing. Mail-back available.">
+<meta name="twitter:image" content="brand/exports/og-image.png">
+<title>Ask for a quote — ClearStack</title>
+<link rel="icon" href="brand/logos/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="brand/exports/icon-180.png">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <a class="logo" href="index.html" aria-label="ClearStack home">
+      <img class="logo-wordmark" src="brand/logos/clearstack-wordmark-dark.svg" alt="ClearStack" height="38" width="220">
+    </a>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="main-nav">Menu</button>
+    <nav aria-label="Primary"><ul class="nav-list" id="main-nav"><li><a href="index.html" aria-current="page">Home</a></li><li><a href="services.html">Services</a></li><li><a href="pricing.html">Pricing</a></li><li><a href="how-it-works.html">How it works</a></li><li><a href="about.html">About</a></li><li><a class="btn-nav" href="quote.html">Get a quote</a></li></ul></nav>
+  </div>
+</header>
+<main>
+
+<section class="hero"><div class="hero-inner">
+<p class="hero-eyebrow">Ask for a quote</p>
+<h1>Tell us what you want</h1>
+<p class="hero-sub">Describe your stack — page count, form types, deadline, delivery. We reply with a ClearStack package quote (searchable digital book, not a scan dump).</p>
+</div></section>
+<section class="section"><div class="container">
+<form class="form-card" id="order-form" style="max-width:720px">
+<label for="name">Your name</label>
+<input id="name" name="name" required autocomplete="name">
+<label for="email">Email</label>
+<input id="email" name="email" type="email" required>
+<label for="phone">Phone</label>
+<input id="phone" name="phone" type="tel">
+<label for="company">Company / organization (optional)</label>
+<input id="company" name="company">
+<label for="product_type">What should we deliver?</label>
+<select id="product_type" name="product_type" required>
+<option value="">Select…</option>
+<option>Searchable digital book (OCR + bookmarks/index)</option>
+<option>Organized document packets / folders</option>
+<option>Both book + packets</option>
+<option>Not sure — advise me</option>
+</select>
+<label for="pages">Approximate page count</label>
+<input id="pages" name="pages" placeholder="e.g. 120" inputmode="numeric" required>
+<label for="form_types">What kinds of documents / forms?</label>
+<select id="form_types" name="form_types" required>
+<option value="">Select…</option>
+<option>Mixed office (letter/legal)</option>
+<option>Invoices / AP-AR</option>
+<option>Contracts / agreements</option>
+<option>HR / employee files</option>
+<option>Applications / intake forms</option>
+<option>Construction / project binders</option>
+<option>Property / HOA / board packets</option>
+<option>Escrow / title files</option>
+<option>Photos to PDF book</option>
+<option>Other — explained below</option>
+</select>
+<label for="want">Explain what you want (goals, deadlines, special handling)</label>
+<textarea id="want" name="want" required placeholder="Example: Closeout binder for owner handoff by Oct 15. Need searchable PDF + flash drive. Return originals after."></textarea>
+<label for="intake">How will you provide documents?</label>
+<select id="intake" name="intake">
+<option>Ship to ClearStack commercial mailbox (address after deposit — not a home address)</option>
+<option>Scheduled IE drop-off (appointment)</option>
+<option>Hold at UPS Store / FedEx Office for ClearStack pickup</option>
+<option>Secure digital upload</option>
+</select>
+<label for="dropout">How should we get the product back to you?</label>
+<select id="dropout" name="dropout">
+<option>Secure link only (included)</option>
+<option>Link + flash drive mailer (+$75)</option>
+<option>Link + I pick up USB by appointment</option>
+<option>Return paper by mail (freight + handle)</option>
+<option>I pick up paper by appointment</option>
+<option>Dispose paper after I approve digital (partner shred)</option>
+</select>
+<label for="delivery">Digital delivery</label>
+<select id="delivery" name="delivery">
+<option>Secure link / folder (included)</option>
+<option>Flash drive mailed (+$75)</option>
+<option>Both link and flash drive</option>
+</select>
+<label for="paper_fate">After you approve the digital book, paper should be…</label>
+<select id="paper_fate" name="paper_fate">
+<option>Return originals to me</option>
+<option>Securely dispose / shred (partner)</option>
+<option>Hold 14 days then ask me again</option>
+</select>
+<label for="rush">Rush 48-hour?</label>
+<select id="rush" name="rush"><option>No</option><option>Yes — if capacity</option></select>
+<label for="special">Special instructions</label>
+<textarea id="special" name="special" placeholder="Fragile pages, staples, confidential sections, naming rules…"></textarea>
+<label for="notes">Anything else?</label>
+<textarea id="notes" name="notes" placeholder="Optional extras…"></textarea>
+<div class="form-actions">
+<button class="btn btn-gold" type="submit">Build quote request</button>
+<button class="btn btn-outline" type="button" id="copy-summary">Copy summary</button>
+</div>
+<p class="note">By requesting a quote you agree to our <a href="legal/terms.html">Terms</a> and <a href="legal/privacy.html">Privacy</a>. 50% deposit after we confirm scope.</p>
+</form>
+<div class="card" id="order-result" hidden style="margin-top:1.25rem;max-width:720px">
+<h3>Your ClearStack quote request</h3>
+<p class="note">Copy and send when we share the ClearStack inbox — or paste in Zoom.</p>
+<pre style="white-space:pre-wrap;font-size:.9rem;background:var(--cream);padding:1rem;border-radius:8px;margin-top:.75rem"></pre>
+</div>
+</div></section>
+
+</main>
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <img class="footer-mark" src="brand/logos/clearstack-wordmark-dark.svg" alt="ClearStack" height="36" width="200">
+        <p>Messy stack in. Clear packet out. Document → searchable PDF packages for bids, audits, and archives.</p>
+      </div>
+      <div class="footer-nav">
+        <div class="footer-col">
+          <h4>Explore</h4>
+          <a href="services.html">Services</a>
+          <a href="pricing.html">Pricing</a>
+          <a href="how-it-works.html">How it works</a>
+          <a href="about.html">About</a>
+        </div>
+        <div class="footer-col">
+          <h4>Start</h4>
+          <a href="quote.html">Get a quote</a>
+          <a href="brand.html">Brand</a>
+        </div>
+        <div class="footer-col">
+          <h4>Legal</h4>
+          <a href="legal/terms.html">Terms</a>
+          <a href="legal/privacy.html">Privacy</a>
+          <a href="legal/disclaimer.html">Disclaimer</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 ClearStack · Service-area Document → PDF studio</p>
+      <div class="footer-links">
+        <a href="legal/terms.html">Terms</a>
+        <a href="legal/privacy.html">Privacy</a>
+        <a href="legal/disclaimer.html">Disclaimer</a>
+      </div>
+    </div>
+  </div>
+</footer>
+<script src="script.js"></script>
+</body>
+</html>

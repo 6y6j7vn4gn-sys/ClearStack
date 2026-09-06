@@ -1,0 +1,8 @@
+CS-INBOX/
+CS-OUT/
+CS-WORKING/
+media/*.mp4
+video/
+.DS_Store
+*.log
+.venv*/
