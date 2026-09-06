@@ -30,7 +30,7 @@ Friday done =
 What we sell: messy paper → OCR-searchable digital book. IE: Upland / Ontario / Rancho Cucamonga.
 Public brand = ClearStack only. No personal name on public creatives.
 
-Locked offer: ≤50p $595 · 50–200 $1,250 · 200–500 $1,950 · rush +40% · USB +$75 · 50% deposit · Zelle $50 off deposit only.
+Locked offer: ≤50p $595 · 50–200 $1,250 · 200–500 $1,950 · rush +40% · USB +$35 · 50% deposit · Zelle $50 off deposit only.
 Zero paid ads until first invoice. Protect $400 cash floor. I approve every send/spend.
 Tithe 10% net profit → Saint Yostina only when I authorize.
 
@@ -143,7 +143,7 @@ Then offer CALL SHEET only.
 
 ```
 Quote lane. Read email/CLIENT-REPLY-PLAYBOOK.md and email/POST-DEPOSIT-INTAKE.md.
-If I paste a page count or client reply: same-day quote using locked tiers. Invoice ID CS-YYYYMMDD-##. Show card full price vs Zelle deposit (50% minus $50). USB +$75 optional. No named scopes in client copy.
+If I paste a page count or client reply: same-day quote using locked tiers. Invoice ID CS-YYYYMMDD-##. Show card full price vs Zelle deposit (50% minus $50). USB +$35 optional. No named scopes in client copy.
 If I wrote DEPOSIT IN: issue intake steps (mail / drop / upload), CS-ID, PMB address if I have the #, never home. Start OCR only when I write BATCH READY.
 Draft only. I send.
 ```

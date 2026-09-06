@@ -44,7 +44,7 @@ We don’t just “scan.” We build **searchable digital books**:
 | Scheduled IE drop-off | **$0** | Appointment — friendly |
 | Pickup | Quote later | Not Day One default |
 | Secure **cloud/link upload** of digital book | **Included** | Primary delivery |
-| **Flash drive / USB** mail-back | **+$75** | Drive + ship + printed index |
+| **Flash drive / USB** mail-back | **+$35** | Drive + ship + printed index |
 | **Return originals** ship-back | **At cost + $25 handle** | Or customer prepaid label |
 | **Dispose / shred after approve** | **Partner shred** — quote (~$0.50–$1.50/lb class; confirm partner) · Certificate when available | Only after client signs off digital book |
 | Extra prep (heavy staples, disaster paper) | Quoted | Honesty > surprise |
@@ -55,7 +55,7 @@ We don’t just “scan.” We build **searchable digital books**:
 
 ## How we provide the digital version
 1. **Primary (included):** Secure download link or shared Drive/OneDrive folder — searchable master PDF (+ splits if useful) + index sheet  
-2. **Optional:** USB flash drive mailed with printed index (**+$75**)  
+2. **Optional:** USB flash drive mailed with printed index (**+$35**)  
 3. **Both:** Many first clients want link *and* USB for peace of mind — offer both
 
 Email on delivery (approachable tone):  

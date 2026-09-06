@@ -1,7 +1,7 @@
 # ClearStack — Pricing cut to commodity-cheapest (Mina decision 2026-09-06)
 
 **Decision:** Cut all three packages toward market-cheapest. Risk acknowledged (wrong-buyer / margin crush).  
-**Prior lock (retired):** $99 / $179 / $249  
+**Prior lock (retired):** $595 / $1,250 / $1,950  
 **New provisional lock (Market Research proposal — Money Maker/Accounting sync site + invoices):**
 
 | Band | New package | Effective at band top | Anchor vs published comps |
@@ -31,3 +31,16 @@
 ## Status
 Mina approved direction: cut all three toward cheapest.  
 Market Research set provisional numbers above. **Money Maker owns live site + invoice template update.**
+
+## Add-ons confirmed (2026-09-06 follow-up)
+| Item | Decision |
+|------|----------|
+| 50% deposit | **Keep** |
+| Mail-back USB | **+$35** (was $75) — link delivery remains included |
+| Zelle intake courtesy | **$20** on deposit only (was $50) — never wipe out a $99 deposit |
+
+## Add-ons lock (Market Research 2026-09-06 afternoon)
+- **50% deposit** — keep
+- **USB mail-back +$35** (was $75) — link delivery stays free/default
+- **Zelle courtesy $20** on deposit only (was $50); never more than half the deposit; cards pay full 50%
+- ≤50 example: deposit $49.50 − $20 courtesy = **$29.50** due now via Zelle

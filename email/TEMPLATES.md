@@ -14,7 +14,7 @@ Thank you for reaching out to ClearStack. Based on about **[N] pages**, your pac
 
 **[Package]** — **$[price]**  
 Includes OCR searchable digital book, consistent naming, bookmarks/index, and secure link delivery.  
-Optional flash drive mailer: **+$75**. Standard turnaround 5–7 business days after we receive materials (rush available).
+Optional flash drive mailer: **+$35**. Standard turnaround 5–7 business days after we receive materials (rush available).
 
 **To start:** 50% deposit — **$[deposit]**.  
 We accept card (Payment Link) or bank-to-bank via Zelle.  
@@ -38,7 +38,7 @@ Glad to move forward. Your job ID is **[CS-ID]**.
 
 **Package:** [name] — $[price]  
 **Deposit due (50%):** $[deposit]  
-**Zelle deposit with intake courtesy:** $[deposit − 50] (same package; $50 courtesy applies to the deposit only)  
+**Zelle deposit with intake courtesy:** $[deposit − 50] (same package; $20 courtesy applies to the deposit only)  
 **Card / Payment Link:** $[deposit] (link: [URL when live])
 
 **Zelle:** After you confirm, we’ll reply with the exact ClearStack Zelle details for this job. Please include **[CS-ID]** in the memo.

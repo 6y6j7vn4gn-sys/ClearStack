@@ -79,7 +79,7 @@ Full short scripts: `OUTREACH-SCRIPTS-SHORT.md` · Daily creatives: `DAILY-ADS-7
 | 50–200 pages | **$1,250** |
 | 200–500 pages | **$1,950** |
 | Rush (when capacity) | **+40%** |
-| Optional USB | +$75 (site lock) |
+| Optional USB | +$35 (site lock) |
 | **Deposit** | **50% to start** |
 
 Voice: modern tech studio — **searchable digital books** — not a copy shop.

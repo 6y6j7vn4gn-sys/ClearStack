@@ -1,6 +1,6 @@
 # ClearStack soft-live checklist ($0–20 path)
 - [x] Public site copy locked (descriptions Gamma live)
-- [x] Pricing $595 / $1,250 / $1,950 · rush +40% · USB +$75 · 50% deposit
+- [x] Pricing $595 / $1,250 / $1,950 · rush +40% · USB +$35 · 50% deposit
 - [x] Zelle $50 intake courtesy on deposit (Accounting locked)
 - [x] Order form: explain what you want + pay preference
 - [x] GBP services strip on services page

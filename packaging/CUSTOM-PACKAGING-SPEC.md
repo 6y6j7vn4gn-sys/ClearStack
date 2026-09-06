@@ -8,7 +8,7 @@
 | Print | Sleeve front/back PNG @ `/packaging/usb/` |
 | Insert | Printed index PDF + care card |
 | Optional | Engraved/printed “ClearStack” mini-drive when volume justifies |
-| Add-on price | Already **+$75** mail-back kit |
+| Add-on price | Already **+$35** mail-back kit |
 
 **Day One:** buy blank sleeves + print labels on sticker paper · drop USB in padded envelope with ClearStack face.
 

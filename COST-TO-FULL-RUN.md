@@ -105,7 +105,7 @@ Spend only when **all** checks for that line pass:
 - [ ] Domain + site live  
 - [ ] hello@ ClearStack inbox  
 - [ ] GBP category: Document scanning service + locked descriptions  
-- [ ] Deposit path: Zelle (+$50 courtesy rules) and/or Stripe Payment Link  
+- [ ] Deposit path: Zelle (+$20 courtesy rules) and/or Stripe Payment Link  
 - [ ] Quote → CS-ID → intake → deliver playbook  
 - [ ] Man×Machine handoff (“batch ready”)  
 - [ ] Accounting books ClearStack invoices  

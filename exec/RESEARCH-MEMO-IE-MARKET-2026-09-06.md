@@ -23,7 +23,7 @@
 | **Lead-gen / bureau network** | Match to a scanning vendor; bulk + medical/legal emphasis | Record Nations RC pages; Scanning Nations (Cypress/Whittier, OCR+index for larger jobs) | Quote-only; enterprise lean |
 | **Enterprise records** | Backfile conversion, Image on Demand, storage+shred | Iron Mountain Rancho Cucamonga (9448 Richmond Place) | Contract / portal; slow for mid packs |
 | **Regional imaging shops** | Onsite/offsite searchable files, sometimes HIPAA | My ScanTeam (Ontario), similar SoCal shops | Quote; often file-room scale |
-| **ClearStack (us)** | **OCR-searchable digital book** + named files + master index; page-count tiers | One operator, IE service-area | **$595 / $1,250 / $1,950** · rush +40% · USB +$75 · 50% deposit |
+| **ClearStack (us)** | **OCR-searchable digital book** + named files + master index; page-count tiers | One operator, IE service-area | **$595 / $1,250 / $1,950** · rush +40% · USB +$35 · 50% deposit |
 
 **Citations:**  
 - UPS Store Upland scan: https://locations.theupsstore.com/ca/upland/154-w-foothill-blvd/faxing-&-scanning  
@@ -76,7 +76,7 @@ Evaluated: GitHub static site (`index.html`, `pricing.html`, `quote.html`, `how-
 | 50–200 / $1,250 | Typical closeout binder / HOA archive slice | Full file-room Iron Mountain jobs |
 | 200–500 / $1,950 | Multi-binder project packet | Enterprise backfile / day-forward contracts |
 | Rush +40% | Deadline-driven GC/escrow | Guaranteed SLA without capacity check |
-| USB +$75 | Mail-back preference | Cloud DMS integration |
+| USB +$35 | Mail-back preference | Cloud DMS integration |
 
 **Will NOT fill this week:** large-format blueprints as core SKU · pickup van · enterprise IDP · HIPAA clinic claims · paid ads.
 
@@ -108,7 +108,7 @@ Mehas `info@mehasconstruction.com` · ABF `info@abfconstruction.com` · PMP `car
 
 **Segmentation:** Email-first = GC info@ + HOA care@ with drafted A/B. Phone-first = escrow ops + small GC office managers (call sheet).
 
-**Trust sequence (no nurture empire):** page count → same-day quote → 50% deposit (ClearStack Zelle, $50 courtesy off deposit) → CS-ID → intake (mail/drop/upload via PMB). Stop.
+**Trust sequence (no nurture empire):** page count → same-day quote → 50% deposit (ClearStack Zelle, $20 courtesy off deposit) → CS-ID → intake (mail/drop/upload via PMB). Stop.
 
 ---
 

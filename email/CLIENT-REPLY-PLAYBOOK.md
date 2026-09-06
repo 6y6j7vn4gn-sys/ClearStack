@@ -19,7 +19,7 @@
 ### Zelle courtesy (locked offer)
 - **$50 off the deposit** when the **50% deposit** is sent via Zelle (not on balance unless you decide later).
 - Example: $1,250 package → deposit $625 → Zelle deposit due **$575**.
-- Client still receives full ClearStack package (OCR searchable book, index, secure link; USB still +$75 if chosen).
+- Client still receives full ClearStack package (OCR searchable book, index, secure link; USB still +$35 if chosen).
 - Always send written quote + invoice ID (`CS-YYYYMMDD-##`) before accepting funds.
 - Confirm Zelle name/handle only **after** quote acceptance (never publish personal phone/home on site).
 

@@ -42,7 +42,7 @@
 ### 2) Physical mail-out (optional paid)
 | Method | What ships | Carrier | ClearStack add-on |
 |--------|------------|---------|-------------------|
-| **Flash drive kit** | USB in branded sleeve + printed index in rigid/bubble mailer | USPS Priority or UPS | **+$75** (media + ship + handle) |
+| **Flash drive kit** | USB in branded sleeve + printed index in rigid/bubble mailer | USPS Priority or UPS | **+$35** (media + ship + handle) |
 | **Return originals** | Repacked paper box | Same carriers | **At-cost freight + $25 handle** (or client prepaid label) |
 | **Both** | Link + USB; paper separate | — | Link free + USB $75 + return freight |
 
@@ -74,7 +74,7 @@ Never destroy before written OK.
 
 **Drop-out options (customer chooses)**  
 1. Secure link only (included)  
-2. Link + flash drive mailer (+$75)  
+2. Link + flash drive mailer (+$35)  
 3. Return paper by mail (freight + $25)  
 4. Client pickup of paper/USB by appointment  
 5. Dispose after approve (partner quote)
