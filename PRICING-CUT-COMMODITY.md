@@ -44,3 +44,17 @@ Market Research set provisional numbers above. **Money Maker owns live site + in
 - **USB mail-back +$35** (was $75) — link delivery stays free/default
 - **Zelle courtesy $20** on deposit only (was $50); never more than half the deposit; cards pay full 50%
 - ≤50 example: deposit $49.50 − $20 courtesy = **$29.50** due now via Zelle
+
+## Zelle Rule A (Mina override 2026-09-06)
+**$50 Zelle intake courtesy only when deposit > $50.**  
+⇒ **$99 / ≤50 package: no courtesy** (deposit ≈ $49.50).  
+⇒ **$179 / $249: $50 courtesy** on the 50% deposit.  
+USB mail-back **+$35**. Packages **$99 / $179 / $249**. Deposit **50%**.
+
+## Zelle courtesy — Mina Rule A (2026-09-06)
+- **$50 courtesy only when deposit > $50**
+- ≤50 ($49.50 deposit): **no courtesy** — collect full $49.50
+- 50–200: $89.50 − $50 = **$39.50** due now
+- 200–500: $124.50 − $50 = **$74.50** due now
+- Cards: always full 50%
+- USB mail-back: **+$35**
