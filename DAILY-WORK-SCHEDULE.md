@@ -68,3 +68,7 @@ If you start at 3 PM instead of 7 AM: slide the **same** blocks later. Quotas st
 
 ## ADHD rule
 One primary money focus per block. Park empire ideas in Scout notes — don’t open a new lane mid-shift.
+
+
+---
+**Superseding tight mode:** see `TIGHT-MONEY-DAY.md` (cash-first + Drive Blocks). Finance list: `money/FINANCE-OBLIGATIONS.md`.
