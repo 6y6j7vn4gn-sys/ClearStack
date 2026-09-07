@@ -6,7 +6,7 @@
 - **URL note:** `goclearstack.com` (if bought later) is a web address only. The company people meet is **ClearStack**.
 
 ## Taglines
-- Messy stack in. Clear packet out.
+- Paper in. Searchable book out.
 - Clear the stack. Keep the signal.
 
 ## Never on public pages
@@ -21,5 +21,5 @@
 ## Product one-liner
 Document → searchable PDF packages (OCR digital books), priced by page count.
 
-## Packages
-≤50 **$99** · 50–200 **$179** · 200–500 **$249** · Rush **+40%** · USB **+$35**
+## Packages (locked 2026-09-07)
+Personal/Legal Starter (≤150) **$89** · Standard Binder (≤500) **$169** · Multi-Binder (≤1,200) **$299** · Banker’s Box (~2,500) **$399**/box · Cloud standard · USB **+$25** (free on Multi-Binder) · Indexing **$35/hr** · Rush **+30%** · Shred **$15**/box

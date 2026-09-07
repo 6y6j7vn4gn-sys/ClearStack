@@ -3,16 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Request a ClearStack Document→PDF package quote by page count.">
+<meta name="description" content="Request a ClearStack binder &amp; box package quote — from $89. Encrypted cloud delivery standard; USB optional.">
 <meta name="theme-color" content="#0a1628">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="ClearStack">
 <meta property="og:title" content="Get a quote — ClearStack">
-<meta property="og:description" content="Request a ClearStack Document→PDF package quote by page count.">
+<meta property="og:description" content="Request a ClearStack binder &amp; box package quote — from $89. Encrypted cloud delivery standard; USB optional.">
 <meta property="og:image" content="brand/exports/og-image.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Get a quote — ClearStack">
-<meta name="twitter:description" content="Request a ClearStack Document→PDF package quote by page count.">
+<meta name="twitter:description" content="Request a ClearStack binder &amp; box package quote — from $89. Encrypted cloud delivery standard; USB optional.">
 <meta name="twitter:image" content="brand/exports/og-image.png">
 <title>Get a quote — ClearStack</title>
 <link rel="icon" href="brand/logos/favicon.svg" type="image/svg+xml">
@@ -54,8 +54,17 @@
 <option>Both book + packets</option>
 <option>Not sure — advise me</option>
 </select>
+<label for="package">Package</label>
+<select id="package" name="package" required>
+<option value="">Select…</option>
+<option>Personal / Legal Starter — up to 150 pages — $89</option>
+<option>Standard Binder Archival — up to 500 pages — $169</option>
+<option>Multi-Binder / Small Archive — up to 1,200 pages — $299 (USB included)</option>
+<option>The Banker’s Box — ~2,500 pages — $399/box</option>
+<option>Not sure — advise me from page count</option>
+</select>
 <label for="pages">Approximate page count</label>
-<input id="pages" name="pages" placeholder="e.g. 120" inputmode="numeric" required>
+<input id="pages" name="pages" placeholder="e.g. 450" inputmode="numeric" required>
 <label for="intake_type">Intake type</label>
 <select id="intake_type" name="intake_type" required>
 <option value="">Select…</option>
@@ -88,7 +97,7 @@
 <option>Other — explained in special instructions</option>
 </select>
 <label for="want">Explain what you want (goals, deadlines)</label>
-<textarea id="want" name="want" required placeholder="Example: Closeout binder for owner handoff by Oct 15. Need searchable PDF + flash drive."></textarea>
+<textarea id="want" name="want" required placeholder="Example: Closeout binder for owner handoff by Oct 15. Need searchable PDF + encrypted cloud link."></textarea>
 <label for="special">Special instructions</label>
 <textarea id="special" name="special" placeholder="Fragile pages, staples, confidential sections, naming rules, Bates-style labels, skip blank pages…"></textarea>
 <label for="intake">How will you provide documents?</label>
@@ -100,9 +109,9 @@
 </select>
 <label for="delivery">How should we deliver the searchable book?</label>
 <select id="delivery" name="delivery">
-<option>Secure link / folder (included)</option>
-<option>Flash drive mailed (+$35)</option>
-<option>Both link and flash drive</option>
+<option>Secure encrypted cloud link (included)</option>
+<option>Encrypted USB (+$25)</option>
+<option>Both (USB free if Multi-Binder package)</option>
 </select>
 <label for="paper_fate">After you approve the digital book, paper should be…</label>
 <select id="paper_fate" name="paper_fate">
@@ -116,15 +125,17 @@
 <option>Zelle bank-to-bank ($50 intake courtesy on deposit)</option>
 <option>Advise me</option>
 </select>
-<label for="rush">Rush 48-hour?</label>
+<label for="rush">24-Hour Rush (+30% of project total)?</label>
 <select id="rush" name="rush"><option>No</option><option>Yes — if capacity</option></select>
+<label for="prep_heavy">Prep Heavy (de-stapling / unbinding beyond package)?</label>
+<select id="prep_heavy" name="prep_heavy"><option>No / not sure</option><option>Yes — quote separately</option></select>
 <label for="notes">Anything else?</label>
 <textarea id="notes" name="notes" placeholder="Optional extras…"></textarea>
 <div class="form-actions">
 <button class="btn btn-gold" type="submit">Build order summary</button>
 <button class="btn btn-outline" type="button" id="copy-summary">Copy order summary</button>
 </div>
-<p class="note">By requesting a quote you agree to our <a href="legal/terms.html">Terms</a> and <a href="legal/privacy.html">Privacy Policy</a>. 50% deposit after we confirm scope. Intake address is a <strong>commercial mailbox</strong> — never a residential home address on the public site.</p>
+<p class="note">By requesting a quote you agree to our <a href="legal/terms.html">Terms</a> and <a href="legal/privacy.html">Privacy Policy</a>. 50% deposit on intake; balance on digital proof approval. Prep Heavy may be quoted separately. Intake address is a <strong>commercial mailbox</strong> — never a residential home address on the public site.</p>
 </form>
 <div class="card" id="order-result" hidden style="margin-top:1.25rem;max-width:640px">
 <h3>Your ClearStack order summary</h3>
