@@ -509,3 +509,8 @@ textarea { min-height: 110px; resize: vertical; }
   .section { padding: 2.75rem 1.25rem; }
   .footer-top { flex-direction: column; }
 }
+
+/* Intake types graphic */
+.intake-figure{margin:1.25rem 0 0;text-align:center}
+.intake-figure img{width:100%;max-width:980px;height:auto;border-radius:14px;border:1px solid rgba(10,22,40,.1);box-shadow:0 12px 40px rgba(10,22,40,.08);background:#f5f0e6}
+.intake-figure figcaption{margin-top:.75rem;font-size:.85rem;color:#5c6b7a}

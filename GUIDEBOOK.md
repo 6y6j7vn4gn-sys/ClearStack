@@ -128,14 +128,15 @@ Job IDs look like `CS-YYYYMMDD-##` (ClearStack Job ID). Put the ID on Zelle memo
 - **50% deposit** to start work. Balance due on delivery.  
 - Work starts after deposit clears.  
 - Card or bank-to-bank (**Zelle**).  
-- Clients who pay the **deposit by Zelle** receive a **$20 intake courtesy on that deposit only**.  
+- Clients who pay the **deposit by Zelle** receive a **$50 intake courtesy only if that deposit is greater than $50**. If the 50% deposit is ≤ $50 (the ≤50-page / $99 package), they pay the full deposit — no courtesy.  
 - Never call it a “cash discount.” Say **Zelle intake courtesy** or **$50 courtesy only if deposit > $50**.
 
 ### Example math (do not invent handles)
 
-- Package $179 → 50% deposit = $89.50 → Zelle deposit due = **$69.50** after $20 courtesy.  
-- Package $99 → 50% = $49.50 → Zelle deposit due = **$29.50**.  
-- USB is optional and billed separately when chosen.
+- Package $179 → 50% deposit = $89.50 (> $50) → Zelle deposit due = **$39.50** after $50 courtesy.  
+- Package $249 → 50% deposit = $124.50 (> $50) → Zelle deposit due = **$74.50** after $50 courtesy.  
+- Package $99 → 50% = $49.50 (≤ $50) → Zelle deposit due = **$49.50** (full deposit, no courtesy).  
+- USB is optional and billed separately when chosen (+$35).
 
 ---
 
@@ -157,7 +158,7 @@ Job IDs look like `CS-YYYYMMDD-##` (ClearStack Job ID). Put the ID on Zelle memo
 ## 6. Customer journey
 
 1. **Quote** — Client gives approximate page count (form, email, or call). Same-day package quote with CS-ID.  
-2. **Deposit** — 50% to start. Card full deposit or Zelle with $50 courtesy only if deposit > $50 only.  
+2. **Deposit** — 50% to start. Card full deposit or Zelle with **$50 courtesy only if deposit > $50** (≤50-page package pays full deposit).  
 3. **Intake** — After deposit clears, share packing checklist + CS-ID label + receive path (ship / drop / upload). Never publish home address.  
 4. **Work** — Scan → BATCH READY → OCR packet → QA.  
 5. **Deliver** — Secure link (included). Optional USB mail-back (+$35).  

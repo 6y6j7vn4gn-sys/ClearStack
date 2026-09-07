@@ -14,7 +14,7 @@
     const lines = ["ClearStack — Quote request"];
     for (const [k, label] of [
       ["name","Name"],["email","Email"],["phone","Phone"],["company","Company"],
-      ["product_type","Deliverable"],["pages","Page count"],["form_types","Document types"],
+      ["product_type","Deliverable"],["pages","Page count"],["intake_type","Intake type"],["purpose","Purpose"],["form_types","Document types"],
       ["want","What they want"],["special","Special instructions"],
       ["intake","Intake"],["delivery","Delivery"],["paper_fate","Paper after approve"],
       ["rush","Rush"],["pay_pref","Deposit method"],["notes","Notes"],["service","Package"],
