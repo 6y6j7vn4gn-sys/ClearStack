@@ -1,10 +1,9 @@
-# ClearStack
+# ClearStack (public site)
 
-Private ops + static site for **ClearStack** (document → searchable digital packet).
+Client-facing Document → searchable digital books site.
 
-- Public brand name only: **ClearStack**
-- Site: `index.html`, `services.html`, `pricing.html`, legal/, brand/
-- Launch / market / money checklists: markdown under this repo
-- Teaching pack: `TEACH-GLOSSARY-AND-MARKET.md`, `MARKET-NEXT-LANE.md`, `ClearStack-Market-Next-Lane.xlsx`
+**Live:** https://6y6j7vn4gn-sys.github.io/ClearStack/
 
-> Keep this repository **private**. Do not put home addresses or personal legal names on public pages.
+Public pages only: home, services, pricing, how-it-works, packaging, quote, order, about, brand, legal, demo order flow.
+
+Internal operator docs are **not** published in this repository.

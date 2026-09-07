@@ -6,3 +6,27 @@ video/
 .DS_Store
 *.log
 .venv*/
+
+# Never publish operator internals
+GUIDEBOOK.md
+guidebook.html
+benchmarks.html
+learn/
+exec/
+money/
+market/
+email/
+AUTO-TASKS.md
+FROM-ZERO*
+TIGHT-MONEY*
+DAILY-WORK*
+SOFT-LIVE*
+LAUNCH-*
+PARTNER-*
+NON-HOME*
+FILINGS*
+COST-*
+BUDGET*
+magazine-*.html
+pack-sunday.html
+*_pulled*

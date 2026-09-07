@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+Disallow: /guidebook
+Disallow: /GUIDEBOOK
+Disallow: /learn/
+Disallow: /exec/
+Disallow: /money/
+Disallow: /benchmarks
+Disallow: /*.md$
