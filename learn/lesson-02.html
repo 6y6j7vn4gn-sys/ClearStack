@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lesson 02 — Intake rails · Business School</title>
+<link rel="icon" href="../brand/logos/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../styles.css">
+<style>
+.you-me { display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin:1.25rem 0; }
+@media(max-width:700px){.you-me{grid-template-columns:1fr}}
+.you-me .card { padding:1.1rem; border-radius:var(--radius); border:2px solid var(--gold); background:#fff; }
+.you-me .me { border-color:var(--teal,#2ec4b6); }
+.pull { font-size:1.35rem; border-left:4px solid var(--gold); padding-left:1rem; margin:1.25rem 0; font-style:italic; }
+.quiz { background:var(--navy); color:var(--cream); padding:1.25rem; border-radius:var(--radius); margin-top:1.5rem; }
+.quiz strong { color:var(--gold); }
+.steps { counter-reset:step; list-style:none; padding:0; margin:1rem 0; }
+.steps li { counter-increment:step; margin:0.75rem 0; padding-left:2.5rem; position:relative; }
+.steps li::before { content:counter(step); position:absolute; left:0; top:0; width:1.75rem; height:1.75rem; border-radius:50%; background:var(--navy); color:var(--gold); font-weight:800; font-size:0.85rem; display:flex; align-items:center; justify-content:center; }
+</style>
+</head>
+<body>
+<header class="site-header"><div class="header-inner">
+<a class="logo" href="../index.html" aria-label="ClearStack home">
+  <img class="logo-mark" src="../brand/logos/clearstack-mark.svg" alt="" height="40" width="40">
+  <img class="logo-wordmark" src="../brand/logos/clearstack-wordmark-dark.svg" alt="ClearStack" height="40" width="220">
+</a>
+<nav aria-label="Primary"><ul class="nav-list"><li><a href="index.html">Learn</a></li><li><a href="../benchmarks.html">Benchmarks</a></li><li><a class="btn-nav" href="../pricing.html">Pricing</a></li></ul></nav>
+</div></header>
+<main>
+<section class="section"><div class="container">
+<p class="hero-eyebrow" style="color:var(--gold)">Lesson 02 · Monday Sep 7</p>
+<h1 class="section-title">Intake rails — Inbox, PMB, quote → deposit</h1>
+<hr class="hairline">
+
+<p class="pull">Paper and money never go to your house porch. They enter through <strong>Inbox</strong> (email), <strong>PMB</strong> (Private Mail Box), and a clear <strong>quote → 50% deposit</strong> before we open a box.</p>
+
+<h2>Spell the rails</h2>
+<ul class="prose-list" style="padding-left:1.2rem;list-style:disc;margin:1rem 0">
+<li><strong>Inbox</strong> = business email clients use (target: <em>hello@</em> / ClearStack Gmail). Status today: <strong>not created yet</strong>.</li>
+<li><strong>PMB</strong> (Private Mail Box) = your box number at The UPS Store — commercial street address, not 371 D St. Locked store: <strong>1042 N Mountain Ave Ste B, Upland</strong>. Status: address chosen · <strong>box # not rented</strong>.</li>
+<li><strong>Quote</strong> = page-band package price from the live table ($99 / $179 / $249).</li>
+<li><strong>Deposit</strong> = <strong>50%</strong> before we receive paper or start the searchable book. Cards = full 50%. Zelle = $50 intake courtesy <em>only when deposit &gt; $50</em> (so ≤50 / $99 = full ~$49.50 — no courtesy).</li>
+<li><strong>CS-ID</strong> (ClearStack Job ID) = code like <code>CS-20260907-01</code> on every quote, Zelle memo, and shipping label.</li>
+</ul>
+
+<h2>Today’s prices (locked)</h2>
+<table class="pricing"><thead><tr><th>Pages</th><th>Package</th></tr></thead>
+<tbody>
+<tr><td>≤50</td><td><strong>$99</strong></td></tr>
+<tr><td>50–200</td><td><strong>$179</strong></td></tr>
+<tr><td>200–500</td><td><strong>$249</strong></td></tr>
+<tr><td>Rush</td><td><strong>+40%</strong></td></tr>
+</tbody></table>
+<p class="section-lead" style="margin-top:0.75rem">50% deposit to start · USB/flash +$35 · Zelle $50 courtesy only if deposit &gt; $50 · never publish home address.</p>
+
+<h2>The money path (quote → deposit)</h2>
+<ol class="steps">
+<li>Client asks (form / reply) with page estimate or stack size.</li>
+<li>We reply with package price + CS-ID + pay options (Stripe card or Zelle when live).</li>
+<li>Client pays <strong>50% deposit</strong> — memo must include CS-ID.</li>
+<li><em>Only then</em> we share intake address (PMB) or upload link — never on the public homepage as a home address.</li>
+<li>Receipt email when materials arrive · build searchable book · balance on delivery.</li>
+</ol>
+
+<h2>Who does what</h2>
+<div class="you-me">
+  <div class="card"><h3>YOU (Operator)</h3><ul style="padding-left:1.1rem;list-style:disc"><li>Create Inbox when ready (final-send)</li><li>Rent PMB in person (2 IDs) · text Money Maker the ###</li><li>Confirm Zelle business tag · FILE IT (EIN → DBA)</li><li>Authorize SEND 1–4 · pick up boxes from PMB</li><li>Keep Dual Plan A: ≥3 job apps first</li></ul></div>
+  <div class="card me"><h3>ME (Money Maker)</h3><ul style="padding-left:1.1rem;list-style:disc"><li>Draft quotes · CS-IDs · packing checklist</li><li>Never invent deposits or SEND counts</li><li>Keep site/pricing synced · scoreboard honest</li><li>Ask you only for final send / FILE IT / BUY IT</li></ul></div>
+</div>
+
+<div class="quiz">
+  <p><strong>Homework (2 min):</strong> Say out loud the five steps: quote → deposit → share PMB/upload → receipt → book. Then open benchmarks and check which rails are still N.</p>
+  <p>Benchmarks: <a href="https://6y6j7vn4gn-sys.github.io/ClearStack/benchmarks.html" style="color:var(--gold-light)">benchmarks.html</a></p>
+  <p style="margin-top:0.75rem"><strong>Tomorrow:</strong> Lesson 03 — Job Machine Dual Plan A (apps first, ClearStack inch second).</p>
+</div>
+
+<p style="margin-top:1.5rem"><a class="btn btn-gold" href="index.html">All lessons</a> <a class="btn btn-outline" href="lesson-01.html">← Lesson 01</a> <a class="btn btn-outline" href="../benchmarks.html">Benchmarks</a></p>
+</div></section>
+</main>
+</body></html>
