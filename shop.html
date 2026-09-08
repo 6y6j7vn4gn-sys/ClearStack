@@ -38,9 +38,10 @@
 <main>
 <section class="section"><div class="container">
 <p class="tagline">Paper in. Searchable book out.</p>
+<p class="hero-eyebrow" style="margin-top:.35rem">We pick up.</p>
 <h1 class="section-title">Choose your package</h1>
 <hr class="hairline">
-<p class="section-lead">Pick a tier, add-ons, and pay method. Live cart locks in list total and your <strong>50% deposit</strong> — cards at full list; Zelle −15% off package only.</p>
+<p class="section-lead"><strong>We pick up.</strong> ClearStack serves clients <strong>nationwide</strong> via UPS from our Upland, CA hub — door pickup ($24) + shipping back when ready. Pick a tier, add-ons, and pay method. Live cart locks list total and your <strong>50% deposit</strong> — cards at full list; Zelle −15% off package only.</p>
 
 <div class="shop-layout" id="shop-form">
   <div class="shop-main">
@@ -94,9 +95,9 @@
       <h2 class="shop-h2">2 · How paper arrives</h2>
       <div class="ups-impress-banner" role="note">
         <span class="badge">UPS required · two tasks</span>
-        <h3>UPS picks up from our hub and drops at your address — shipping required</h3>
+        <h3>We pick up. Nationwide UPS from our Upland hub — shipping required</h3>
         <p><strong>Task 1 · DROP</strong> (hub → you): prepaid kit, finished searchable book/USB, or return originals — <strong>shipping is mandatory</strong> on every physical order. Cart shows an estimate; final amount is set after we rate your address.</p>
-        <p><strong>Task 2 · PICKUP</strong> (your door → our Upland receive): optional/default <strong>UPS Pickup at your door — $12</strong> to collect sealed paper. Hub street appears only on your UPS label PDF after deposit — never on this website.</p>
+        <p><strong>Task 2 · PICKUP</strong> (your door → our Upland receive): optional/default <strong>UPS Pickup at your door — $24</strong> to collect sealed paper. Hub street appears only on your UPS label PDF after deposit — never on this website.</p>
         <p class="ups-premium-note" id="must-ship-note">Task 1 DROP (hub→you) shipping required on every physical order. Estimate in cart; final after UPS rate on deposit invoice.</p>
       </div>
       <div class="intake-grid" role="radiogroup" aria-label="How paper arrives">
@@ -132,30 +133,39 @@
         </select>
       </div>
 
+      <div id="ship-region-wrap" class="intake-sub">
+        <label for="ship-region">Where should we ship? <span class="badge">Required</span></label>
+        <select id="ship-region" name="shipRegion" required>
+          <option value="local" selected>California / nearby (Zone ~2–4)</option>
+          <option value="out_of_state">Out of state — rest of U.S. (Zone ~5–8)</option>
+        </select>
+        <p class="note">We pick up and ship nationwide from the Upland hub. Region sets your Task 1 DROP shipping estimate.</p>
+      </div>
+
       <div id="weight-band-wrap" class="intake-sub">
         <label for="weight-band">Approximate weight of items <span class="badge">Required</span></label>
         <select id="weight-band" name="weightBand" required>
-          <option value="under5">Under 5 lb — shipping est. $18</option>
-          <option value="5to10" selected>5–10 lb — shipping est. $28</option>
-          <option value="10to20">10–20 lb — shipping est. $38</option>
-          <option value="20to40">20–40 lb — shipping est. $52</option>
-          <option value="40to70">40–70 lb — shipping est. $78</option>
+          <option value="under5">Under 5 lb — shipping est. $23</option>
+          <option value="5to10" selected>5–10 lb — shipping est. $31</option>
+          <option value="10to20">10–20 lb — shipping est. $40</option>
+          <option value="20to40">20–40 lb — shipping est. $63</option>
+          <option value="40to70">40–70 lb — shipping est. $102</option>
           <option value="over70">Over 70 lb — Quoted</option>
         </select>
-        <p class="note">Weight sets your UPS shipping estimate (hub → you). Final amount after we rate your address — billed as listed shipping.</p>
+        <p class="note">Weight + ship region set your UPS shipping estimate (hub → you). Final invoice = listed shipping after we rate your address (never free on physical).</p>
       </div>
 
       <div id="ups-pickup-wrap" class="intake-sub">
         <label class="check-row">
           <input type="checkbox" id="addon-ups-pickup" checked>
-          <span><strong>UPS Pickup at your door — $12</strong> <span class="prose-muted">(Task 2 · recommended · collects paper to our Upland receive)</span></span>
+          <span><strong>UPS Pickup at your door — $24</strong> <span class="prose-muted">(Task 2 · recommended · collects paper to our Upland receive)</span></span>
         </label>
       </div>
     </div>
 
     <div class="form-card shop-card">
       <h2 class="shop-h2">3 · Add-ons</h2>
-      <p class="note">Physical jobs include <strong>Task 1 DROP shipping</strong> (hub→you, estimate in cart). Task 2 door pickup is $12 when selected. Materials billed as listed.</p>
+      <p class="note">Physical jobs include <strong>Task 1 DROP shipping</strong> (hub→you, estimate in cart). Task 2 door pickup is $24 when selected. Materials billed as listed.</p>
 
       <h3 class="shop-h2" style="font-size:1.05rem;margin-top:.5rem">Paper fate (after approval)</h3>
       <p class="note">Choose one. Default is return originals via UPS (Task 1 DROP). Shred skips returning originals for privacy.</p>

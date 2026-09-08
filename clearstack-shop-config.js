@@ -8,13 +8,13 @@
  *
  * --- Operator cost notes (NEVER show cost or “+50%” / 1.5× to clients) ---
  * Pass-through sell = ceil(cost × 1.5). Approximate operator costs:
- *   USB ~$18 → sell $27 · shred ~$10 → sell $15 · return-mail ~$12 → sell $18 · ups-pickup ~$8 → sell $12
+ *   USB ~$18 → sell $27 · shred ~$10 → sell $15 · return-mail ~$12 → sell $18 · ups-pickup ~$16.15 → sell $24
  *   Kits (carton + label materials approx): mailer ~$26→$39 · small ~$43→$65 · letter ~$52→$78
  *   legal ~$61→$92 · medium ~$77→$116 · large ~$123→$185 · xl ~$165→$248 · custom = Quoted
  * Van ($9/mi): LEGACY / NOT offered on public shop — Mina does not drive to clients.
  * Automation at Upland, CA 91786 hub. TWO UPS TASKS from Mina account:
  *   Task 1 DROP hub→client (kit / book+USB / return originals unless shred) — must shipping.
- *   Task 2 PICKUP client door→ClearStack PMB / Upland UPS Store (ups-pickup $12 SKU).
+ *   Task 2 PICKUP client door→ClearStack PMB / Upland UPS Store (ups-pickup $24 SKU). Never show 1.5× / cost to clients.
  * Each leg: sell = ceil(actual UPS.com × 1.5). Never free. Never show clients “150%” / 1.5×.
  * Cart estimate from CLIENT WEIGHT BAND (primary). Kit size = materials price only.
  * Default paper fate = RETURN ORIGINALS. Exception: shred $15/box skips originals return.
@@ -79,19 +79,24 @@ window.CLEARSTACK_SHOP = {
     must: true,
     label: "UPS shipping (hub → you)",
     mode: "actual_x1_5",
-    note: "Final amount = UPS rate after address; billed on deposit invoice. Cart shows estimate from weight band."
+    note: "Final amount = ceil(UPS × 1.5) after address; billed on deposit invoice. Cart shows estimate from weight band + ship region. Never show 1.5× to clients."
+  },
+  shipRegions: {
+    local: { id: "local", label: "California / nearby", short: "CA / nearby", note: "Zone ~2–4 from Upland hub" },
+    out_of_state: { id: "out_of_state", label: "Out of state (rest of U.S.)", short: "Out of state", note: "Zone ~5–8 from Upland hub" }
   },
   /**
-   * Weight bands = shipping cost indicator. Sell already ~1.5× typical ground (round dollars).
-   * over70 = Quoted (not cart-billed).
+   * Weight bands = Task 1 DROP shipping cost indicator (sell ~1.5× round dollars).
+   * estimate = California / nearby (Zone ~2–4). estimateOutOfState = Rest of US (Zone ~5–8).
+   * over70 = Quoted (not cart-billed). Never show 1.5× / cost to clients.
    */
   weightBands: {
-    under5:  { id: "under5",  label: "Under 5 lb",   estimate: 18 },
-    "5to10": { id: "5to10",   label: "5–10 lb",      estimate: 28 },
-    "10to20":{ id: "10to20",  label: "10–20 lb",     estimate: 38 },
-    "20to40":{ id: "20to40",  label: "20–40 lb",     estimate: 52 },
-    "40to70":{ id: "40to70",  label: "40–70 lb",     estimate: 78 },
-    over70:  { id: "over70",  label: "Over 70 lb",   estimate: 0, quoted: true }
+    under5:  { id: "under5",  label: "Under 5 lb",   estimate: 23, estimateOutOfState: 29 },
+    "5to10": { id: "5to10",   label: "5–10 lb",      estimate: 31, estimateOutOfState: 41 },
+    "10to20":{ id: "10to20",  label: "10–20 lb",     estimate: 40, estimateOutOfState: 53 },
+    "20to40":{ id: "20to40",  label: "20–40 lb",     estimate: 63, estimateOutOfState: 87 },
+    "40to70":{ id: "40to70",  label: "40–70 lb",     estimate: 102, estimateOutOfState: 146 },
+    over70:  { id: "over70",  label: "Over 70 lb",   estimate: 0, estimateOutOfState: 0, quoted: true }
   },
   /** Legacy kit-band approx (ops reference only — cart uses weightBands). */
   shippingEstimates: {
@@ -111,7 +116,7 @@ window.CLEARSTACK_SHOP = {
     rush: { id: "rush", label: "24-Hour Rush", pct: 0.30 },
     shred: { id: "shred", label: "Certified shred for privacy", pricePerBox: 15, note: "Mutual with return originals — when on, no original paper return / hide return-mail" },
     returnMail: { id: "return-mail", label: "Return-mail labels", price: 18, note: "Hidden when kit (labels included) or when shred selected" },
-    upsPickup: { id: "ups-pickup", label: "UPS Pickup at your door", price: 12, note: "Default on for kit|ship; stays on for physical collection paths unless client unchecks" },
+    upsPickup: { id: "ups-pickup", label: "UPS Pickup at your door", price: 24, note: "Default on for kit|ship; stays on for physical collection paths unless client unchecks" },
     indexing: { id: "indexing", label: "Custom indexing note", hourly: 35, quoted: true }
   },
   /** Paste live Stripe Payment Link URLs here (deposit at list 50%). Empty = mailto fallback. */

@@ -25,6 +25,7 @@
     const intake = (document.querySelector('input[name="intake"]:checked') || {}).value || "kit";
     const kitSize = (document.getElementById("kit-size") || {}).value || "letter";
     const weightBand = (document.getElementById("weight-band") || {}).value || "5to10";
+    const shipRegion = (document.getElementById("ship-region") || {}).value || "local";
     const upsPickup = !!(document.getElementById("addon-ups-pickup") || {}).checked;
     // Van / operator drive NOT offered on public shop (legacy disabled).
     const vanMiles = null;
@@ -46,6 +47,7 @@
       intake,
       kitSize,
       weightBand,
+      shipRegion,
       upsPickup,
       vanMiles,
       vanCity,
@@ -79,6 +81,27 @@
    * - Zelle deposit: 50% of (package×0.85 + add-ons + rush on that base)
    * Never expose operator cost or 1.5× markup to clients.
    */
+
+  function isOutOfState(region) {
+    return region === "out_of_state";
+  }
+
+  function weightEstimateFor(weightDef, shipRegion) {
+    if (!weightDef) return 31;
+    if (weightDef.quoted) return 0;
+    if (isOutOfState(shipRegion)) {
+      const v = weightDef.estimateOutOfState != null ? weightDef.estimateOutOfState : weightDef.estimate;
+      return Number(v != null ? v : 41);
+    }
+    return Number(weightDef.estimate != null ? weightDef.estimate : 31);
+  }
+
+  function mustShipCartLabel(shipRegion) {
+    return isOutOfState(shipRegion)
+      ? "Out-of-state UPS shipping (est.)"
+      : "UPS shipping (hub → you, est.)";
+  }
+
   function compute(s) {
     const packageList = round2(s.pkg.price * s.qty);
     const usbIncluded = !!s.pkg.usbIncluded;
@@ -104,8 +127,10 @@
     const returnMailCharge =
       returnMailAllowed && s.returnMail ? round2(CFG.addons.returnMail.price) : 0;
 
-    // Must shipping Task 1 DROP (hub → client). Weight band = primary cost indicator.
+    // Must shipping Task 1 DROP (hub → client). Weight band + ship region = estimate.
+    // Final invoice = ceil(actual UPS × 1.5) after address — never show 1.5× to clients.
     const physical = s.intake === "kit" || s.intake === "ship" || s.intake === "dropoff";
+    const shipRegion = s.shipRegion === "out_of_state" ? "out_of_state" : "local";
     const weightDef =
       (CFG.weightBands && CFG.weightBands[s.weightBand]) ||
       (CFG.weightBands && CFG.weightBands["5to10"]) ||
@@ -116,10 +141,13 @@
     let mustShipBand = null;
     let mustShipBandLabel = null;
     let mustShipNeeded = false;
+    let mustShipLabel = mustShipCartLabel(shipRegion);
+    let mustShipRegion = physical ? shipRegion : null;
     if (physical) {
       const usbWillShip = !!(s.usb || usbIncluded);
-      const returnOriginals = !s.shred; // default paper fate
+      const returnOriginals = !s.shred; // default paper fate = return originals
       const kitOut = s.intake === "kit";
+      // Must-ship always on physical when outbound needed (kit-out, return originals, and/or USB)
       mustShipNeeded = kitOut || returnOriginals || usbWillShip;
       if (mustShipNeeded) {
         mustShipBand = weightDef ? weightDef.id : s.weightBand || "5to10";
@@ -129,7 +157,7 @@
           mustShipEstimate = 0;
           mustShipCharge = 0;
         } else {
-          mustShipEstimate = Number(weightDef && weightDef.estimate != null ? weightDef.estimate : 28);
+          mustShipEstimate = weightEstimateFor(weightDef, shipRegion);
           mustShipCharge = round2(mustShipEstimate);
         }
       }
@@ -175,6 +203,8 @@
       mustShipBand,
       mustShipBandLabel,
       mustShipNeeded,
+      mustShipLabel,
+      mustShipRegion,
       addonsList,
       rushCharge,
       listTotal,
@@ -201,11 +231,13 @@
       lines.push("• RET / inbound: issue inbound UPS label from Upland hub after deposit; send tracking the hour it prints.");
     }
     if (m.upsPickupCharge > 0 || (s.upsPickup && (s.intake === "kit" || s.intake === "ship"))) {
-      lines.push("• Task 2 PICKUP (ups-pickup $12 SKU): schedule UPS Pickup at client door → ClearStack PMB / Upland UPS Store receive.");
+      lines.push("• Task 2 PICKUP (ups-pickup $24 SKU): schedule UPS Pickup at client door → ClearStack PMB / Upland UPS Store receive.");
     }
     if (m.mustShipNeeded) {
       lines.push(
-        "• Task 1 DROP must shipping (hub→client): bill ceil(UPS×1.5) after address — replace cart estimate" +
+        "• Task 1 DROP must shipping (hub→client, region=" +
+          (m.mustShipRegion || s.shipRegion || "local") +
+          "): bill ceil(UPS×1.5) after address — replace cart estimate" +
           (m.mustShipQuoted
             ? " (Quoted)"
             : " (cart estimate $" + (m.mustShipEstimate || 0) + ")") +
@@ -244,6 +276,14 @@
           ? null
           : (CFG.weightBands && CFG.weightBands[s.weightBand] && CFG.weightBands[s.weightBand].label) ||
             s.weightBand,
+      shipRegion: s.intake === "upload" ? null : (s.shipRegion === "out_of_state" ? "out_of_state" : "local"),
+      shipRegionLabel:
+        s.intake === "upload"
+          ? null
+          : (CFG.shipRegions &&
+              CFG.shipRegions[s.shipRegion === "out_of_state" ? "out_of_state" : "local"] &&
+              CFG.shipRegions[s.shipRegion === "out_of_state" ? "out_of_state" : "local"].label) ||
+            (s.shipRegion === "out_of_state" ? "Out of state (rest of U.S.)" : "California / nearby"),
       upsPickup: !!(s.upsPickup && (s.intake === "kit" || s.intake === "ship")),
       vanMiles: null,
       vanCity: null,
@@ -271,11 +311,12 @@
         },
         mustShipping: {
           selected: !!m.mustShipNeeded,
-          label: (CFG.shipping && CFG.shipping.label) || "UPS shipping (hub → you)",
+          label: m.mustShipLabel || (CFG.shipping && CFG.shipping.label) || "UPS shipping (hub → you)",
           estimate: m.mustShipEstimate,
           quoted: !!m.mustShipQuoted,
           band: m.mustShipBand,
           bandLabel: m.mustShipBandLabel,
+          shipRegion: m.mustShipRegion,
           weightBand: s.intake === "upload" ? null : s.weightBand,
           charge: m.mustShipCharge,
           note: m.mustShipNeeded
@@ -337,6 +378,7 @@
           (order.addons.kit.quoted ? " (Quoted)" : " — " + money(order.addons.kit.charge))
         : null,
       order.upsPickup ? "UPS Pickup at door (inbound): " + money(order.addons.upsPickup.charge) : "UPS Pickup: No",
+      order.shipRegionLabel ? "Ship region: " + order.shipRegionLabel : null,
       order.weightBandLabel
         ? "Weight band: " + order.weightBandLabel + (order.weightBand ? " (" + order.weightBand + ")" : "")
         : null,
@@ -388,7 +430,7 @@
       "Hub: Upland, CA 91786 — street on UPS label PDF after deposit only (never on site / email body)",
       "Task 1 DROP hub→client · Task 2 PICKUP client→ClearStack PMB / Upland receive — both ceil(UPS×1.5)",
       order.kitSize ? "KIT-OUT prepaid UPS kit after deposit posts" : null,
-      order.upsPickup ? "Task 2 PICKUP: schedule UPS at client door after deposit ($12) → Upland receive" : null,
+      order.upsPickup ? "Task 2 PICKUP: schedule UPS at client door after deposit ($24) → Upland receive" : null,
       order.addons.mustShipping && order.addons.mustShipping.selected
         ? "Task 1 DROP must shipping — bill ceil(UPS×1.5); cart showed estimate"
         : null,
@@ -454,7 +496,32 @@
       }
     }
 
-    // Task 2 PICKUP (ups-pickup $12) for kit|ship only. Disabled for dropoff/upload. Van never offered.
+    const regionWrap = document.getElementById("ship-region-wrap");
+    const regionEl = document.getElementById("ship-region");
+    if (regionWrap) {
+      const needRegion = s.intake === "kit" || s.intake === "ship" || s.intake === "dropoff";
+      regionWrap.hidden = !needRegion;
+      if (regionEl) {
+        regionEl.required = needRegion;
+        regionEl.disabled = !needRegion;
+      }
+    }
+    // Refresh weight-band option labels for selected ship region (local vs out-of-state)
+    if (weightEl && CFG.weightBands) {
+      const region = (regionEl && regionEl.value) || s.shipRegion || "local";
+      Array.prototype.forEach.call(weightEl.options || [], function (opt) {
+        const def = CFG.weightBands[opt.value];
+        if (!def) return;
+        if (def.quoted) {
+          opt.textContent = def.label + " — Quoted";
+        } else {
+          const est = weightEstimateFor(def, region);
+          opt.textContent = def.label + " — shipping est. $" + est;
+        }
+      });
+    }
+
+    // Task 2 PICKUP (ups-pickup $24) for kit|ship only. Disabled for dropoff/upload. Van never offered.
     if (upsEl) {
       if (s.intake === "dropoff" || s.intake === "upload") {
         upsEl.checked = false;
@@ -570,10 +637,11 @@
       );
     }
     if (m.mustShipNeeded) {
+      const shipLbl = m.mustShipLabel || mustShipCartLabel(s2.shipRegion);
       bits.push(
-        "<div class=\"cart-line\"><span>UPS shipping (est. from weight" +
-          (m.mustShipBandLabel ? ": " + m.mustShipBandLabel : "") +
-          ")" +
+        "<div class=\"cart-line\"><span>" +
+          shipLbl +
+          (m.mustShipBandLabel ? " · " + m.mustShipBandLabel : "") +
           (m.mustShipQuoted
             ? " — Quoted"
             : " — " + money(m.mustShipCharge) + " · final after UPS rate") +
@@ -679,6 +747,14 @@
     }
     const needWeight =
       s2.intake === "kit" || s2.intake === "ship" || s2.intake === "dropoff";
+    if (needWeight && !s2.shipRegion) {
+      const err = document.getElementById("shop-err");
+      err.hidden = false;
+      err.textContent = "Select ship region — California / nearby or Out of state.";
+      const sr = document.getElementById("ship-region");
+      if (sr) sr.focus();
+      return;
+    }
     if (needWeight && !s2.weightBand) {
       const err = document.getElementById("shop-err");
       err.hidden = false;
@@ -774,7 +850,7 @@
     });
   }
 
-  // Featured default: kit|ship + UPS Pickup ($12) Task 2; stay on unless user unchecks.
+  // Featured default: kit|ship + UPS Pickup ($24) Task 2; stay on unless user unchecks.
   document.querySelectorAll('input[name="intake"]').forEach((el) => {
     el.addEventListener("change", () => {
       const ups = document.getElementById("addon-ups-pickup");
