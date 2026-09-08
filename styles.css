@@ -741,3 +741,103 @@ textarea { min-height: 110px; resize: vertical; }
 .intake-sub { margin-top: 0.75rem; }
 .intake-sub[hidden] { display: none !important; }
 .check-row[hidden] { display: none !important; }
+
+
+/* ——— UPS three rails (navy/gold cinematic) ——— */
+.ups-rails {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+  margin-top: 0.5rem;
+}
+@media (max-width: 820px) {
+  .ups-rails { grid-template-columns: 1fr; }
+}
+.ups-rail-card {
+  position: relative;
+  background:
+    radial-gradient(120% 80% at 100% 0%, rgba(245, 204, 69, 0.14), transparent 55%),
+    linear-gradient(165deg, #061525 0%, var(--navy) 42%, var(--navy-mid) 100%);
+  color: var(--cream);
+  border: 1px solid var(--gold-line);
+  border-radius: var(--radius);
+  padding: 1.45rem 1.35rem 1.55rem;
+  box-shadow: var(--shadow), 0 0 0 1px rgba(245, 204, 69, 0.08);
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.ups-rail-card::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, var(--gold-light), var(--gold), transparent);
+}
+.ups-rail-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-lift), 0 0 36px rgba(245, 204, 69, 0.18);
+}
+.ups-rail-card .badge {
+  background: rgba(245, 204, 69, 0.18);
+  color: var(--gold-light);
+  border: 1px solid var(--gold-line);
+}
+.ups-rail-card h3 {
+  color: #fff;
+  margin: 0.65rem 0 0.35rem;
+  font-family: var(--font-serif);
+  font-size: 1.28rem;
+  letter-spacing: -0.02em;
+}
+.ups-rail-card .price {
+  color: var(--gold);
+  font-size: 1.35rem;
+  font-weight: 800;
+  margin: 0.15rem 0 0.55rem;
+}
+.ups-rail-card p {
+  color: rgba(245, 240, 230, 0.82);
+  font-size: 0.94rem;
+  line-height: 1.55;
+  margin: 0;
+}
+.ups-rail-card p.price { margin-bottom: 0.55rem; }
+
+.ups-impress-banner {
+  background:
+    radial-gradient(90% 120% at 0% 0%, rgba(245, 204, 69, 0.16), transparent 50%),
+    linear-gradient(135deg, #020914 0%, var(--navy) 48%, var(--navy-soft) 100%);
+  color: var(--cream);
+  border: 1px solid var(--gold-line);
+  border-radius: var(--radius);
+  padding: 1.25rem 1.35rem 1.15rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 12px 36px rgba(3, 13, 26, 0.28), inset 0 1px 0 rgba(245, 204, 69, 0.2);
+}
+.ups-impress-banner .badge {
+  background: rgba(245, 204, 69, 0.2);
+  color: var(--gold-light);
+  border: 1px solid var(--gold-line);
+}
+.ups-impress-banner h3 {
+  color: var(--gold);
+  font-family: var(--font-serif);
+  font-size: 1.35rem;
+  margin: 0.55rem 0 0.45rem;
+  letter-spacing: -0.02em;
+}
+.ups-impress-banner p {
+  color: rgba(245, 240, 230, 0.88);
+  font-size: 0.95rem;
+  line-height: 1.55;
+  margin: 0 0 0.55rem;
+}
+.ups-impress-banner .ups-premium-note {
+  margin: 0.35rem 0 0;
+  padding-top: 0.55rem;
+  border-top: 1px solid rgba(245, 204, 69, 0.28);
+  color: var(--gold-light);
+  font-size: 0.88rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
