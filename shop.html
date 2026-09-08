@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="ClearStack shop — choose Starter $89, Binder $169, Multi $299, or Box $399. Live cart, 50% deposit via Visa/Mastercard (Stripe) or Zelle (−15% off package).">
+<meta name="theme-color" content="#0a1628">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ClearStack">
+<meta property="og:title" content="Shop — ClearStack">
+<meta property="og:description" content="Build your ClearStack package. Live cart · 50% deposit · Cards or Zelle (−15% off package). Paper in. Searchable book out.">
+<meta property="og:image" content="brand/exports/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Shop — ClearStack">
+<meta name="twitter:description" content="Build your ClearStack package. Live cart · 50% deposit · Cards or Zelle (−15% off package).">
+<meta name="twitter:image" content="brand/exports/og-image.png">
+<title>Shop — ClearStack</title>
+<link rel="icon" href="brand/logos/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="brand/exports/icon-180.png">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <a class="logo" href="index.html" aria-label="ClearStack home">
+      <img class="logo-mark" src="brand/logos/clearstack-mark.svg" alt="" height="42" width="42">
+      <img class="logo-wordmark" src="brand/logos/clearstack-wordmark-dark.svg" alt="ClearStack" height="42" width="240">
+    </a>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="main-nav">Menu</button>
+    <nav aria-label="Primary"><ul class="nav-list" id="main-nav"><li><a href="index.html">Home</a></li><li><a href="services.html">Services</a></li><li><a href="quote.html">Quote</a></li>
+        <li><a href="packaging.html">Packaging</a></li>
+        <li><a href="pricing.html">Pricing</a></li><li><a href="shop.html" aria-current="page">Shop</a></li><li><a href="how-it-works.html">How it works</a></li><li><a href="about.html">About</a></li><li><a class="btn-nav" href="shop.html">Shop</a></li></ul></nav>
+  </div>
+</header>
+<main>
+<section class="section"><div class="container">
+<p class="tagline">Paper in. Searchable book out.</p>
+<h1 class="section-title">Shop ClearStack packages</h1>
+<hr class="hairline">
+<p class="section-lead">Select a package, add-ons, and pay method. Live cart shows list total and <strong>50% deposit due</strong> — cards at full list; Zelle at −15% off package total.</p>
+
+<div class="shop-layout" id="shop-form">
+  <div class="shop-main">
+    <div class="form-card shop-card">
+      <h2 class="shop-h2">1 · Package</h2>
+      <div class="pkg-grid" role="radiogroup" aria-label="Package">
+        <label class="pkg-option">
+          <input type="radio" name="package" value="starter" checked>
+          <span class="pkg-body">
+            <span class="badge">Starter</span>
+            <strong>Personal / Legal Starter</strong>
+            <span class="pkg-meta">Up to 150 pages</span>
+            <span class="pkg-price">$89</span>
+          </span>
+        </label>
+        <label class="pkg-option">
+          <input type="radio" name="package" value="binder">
+          <span class="pkg-body">
+            <span class="badge">Binder</span>
+            <strong>Standard Binder Archival</strong>
+            <span class="pkg-meta">Up to 500 pages</span>
+            <span class="pkg-price">$169</span>
+          </span>
+        </label>
+        <label class="pkg-option">
+          <input type="radio" name="package" value="multi">
+          <span class="pkg-body">
+            <span class="badge">Multi</span>
+            <strong>Multi-Binder / Small Archive</strong>
+            <span class="pkg-meta">Up to 1,200 pages · USB included</span>
+            <span class="pkg-price">$299</span>
+          </span>
+        </label>
+        <label class="pkg-option">
+          <input type="radio" name="package" value="box">
+          <span class="pkg-body">
+            <span class="badge">Box</span>
+            <strong>The Banker’s Box</strong>
+            <span class="pkg-meta">~2,500 pages per box</span>
+            <span class="pkg-price">$399<span>/box</span></span>
+          </span>
+        </label>
+      </div>
+      <div id="qty-wrap" hidden>
+        <label for="box-qty">Quantity (Box packages)</label>
+        <input id="box-qty" type="number" min="1" max="20" value="1" inputmode="numeric">
+      </div>
+    </div>
+
+    <div class="form-card shop-card">
+      <h2 class="shop-h2">2 · Add-ons</h2>
+      <label class="check-row">
+        <input type="checkbox" id="addon-usb">
+        <span>USB encrypted <strong>+$25</strong> <span class="prose-muted" id="usb-hint">Free / auto on Multi</span></span>
+      </label>
+      <label class="check-row">
+        <input type="checkbox" id="addon-rush">
+        <span>Rush <strong>+30%</strong> of project subtotal (when capacity allows)</span>
+      </label>
+      <label class="check-row">
+        <input type="checkbox" id="addon-shred">
+        <span>Certified shred <strong>$15/box</strong></span>
+      </label>
+      <label class="check-row">
+        <input type="checkbox" id="addon-indexing">
+        <span>Custom indexing note — <strong>$35/hr quoted</strong> (not billed in cart)</span>
+      </label>
+      <label for="order-notes">Special order notes</label>
+      <textarea id="order-notes" placeholder="Naming rules, fragile pages, deadlines, return vs shred preferences…"></textarea>
+    </div>
+
+    <div class="form-card shop-card">
+      <h2 class="shop-h2">3 · Your contact</h2>
+      <label for="cust-name">Name</label>
+      <input id="cust-name" name="name" required autocomplete="name">
+      <label for="cust-email">Email</label>
+      <input id="cust-email" name="email" type="email" required autocomplete="email">
+      <label for="cust-phone">Phone (optional)</label>
+      <input id="cust-phone" name="phone" type="tel" autocomplete="tel">
+      <p class="note" id="shop-err" hidden role="alert"></p>
+    </div>
+
+    <div class="form-card shop-card">
+      <h2 class="shop-h2">4 · Pay method</h2>
+      <div class="pay-toggle" role="radiogroup" aria-label="Payment method">
+        <label class="pay-option">
+          <input type="radio" name="pay" value="card" checked>
+          <span><strong>Visa / Mastercard</strong><br><span class="prose-muted">Stripe · full list · 50% deposit</span></span>
+        </label>
+        <label class="pay-option">
+          <input type="radio" name="pay" value="zelle">
+          <span><strong>Zelle</strong><br><span class="prose-muted">−15% off package · then 50% deposit</span></span>
+        </label>
+      </div>
+
+      <div id="pay-card-panel" class="pay-panel">
+        <p class="note">Card deposits use Stripe Payment Links (placeholders until Mina pastes live URLs in <code>clearstack-shop-config.js</code>).</p>
+        <a class="btn btn-gold" id="btn-stripe" href="#">Pay deposit with card</a>
+      </div>
+      <div id="pay-zelle-panel" class="pay-panel" hidden>
+        <p class="zelle-box" id="zelle-instructions">Zelle to ClearStack — token pending Chase Business</p>
+        <p class="section-lead" style="margin-bottom:.75rem">Deposit due: <strong id="zelle-deposit-amt">$0.00</strong> · memo your CS- order id after you place the order.</p>
+        <div class="form-actions">
+          <button type="button" class="btn btn-outline" id="btn-copy-zelle">Copy order summary</button>
+          <button type="button" class="btn btn-gold" id="btn-mailto-zelle">Email confirmation request</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <aside class="cart-panel" aria-live="polite">
+    <h2 class="shop-h2">Live cart</h2>
+    <div id="cart-lines" class="cart-lines"></div>
+    <div class="cart-totals">
+      <div class="cart-line"><span>List subtotal</span><strong id="cart-list-total">$0.00</strong></div>
+      <div class="cart-line muted"><span>Zelle total (−15% pkg)</span><strong id="cart-zelle-total">$0.00</strong></div>
+      <hr class="cart-rule">
+      <div class="cart-line"><span>Card deposit (50% list)</span><strong id="cart-card-deposit">$0.00</strong></div>
+      <div class="cart-line"><span>Zelle deposit (50% × 0.85 pkg)</span><strong id="cart-zelle-deposit">$0.00</strong></div>
+      <div class="cart-deposit">
+        <span id="deposit-rail-label">Card rail — 50% of list</span>
+        <strong id="cart-deposit-due">$0.00</strong>
+      </div>
+    </div>
+    <button type="button" class="btn btn-gold btn-block" id="btn-place-order">Place order / Request confirm</button>
+    <p class="note">Generates a CS- order id and opens confirmation. Balance due after digital proof approval. Brand inbox: confirmations currently to Mina; future From <strong>hello@goclearstack.com</strong>.</p>
+    <p class="note"><a href="pricing.html">See full pricing</a> · <a href="order.html">Detailed quote form</a></p>
+  </aside>
+</div>
+</div></section>
+</main>
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <img class="footer-mark" src="brand/logos/clearstack-wordmark-dark.svg" alt="ClearStack" height="36" width="200">
+        <p>Paper in. Searchable book out. Document → searchable digital books (and packets) for bids, audits, and archives.</p>
+      </div>
+      <div class="footer-nav">
+        <div class="footer-col">
+          <h4>Explore</h4>
+          <a href="services.html">Services</a>
+          <a href="pricing.html">Pricing</a>
+          <a href="shop.html">Shop</a>
+          <a href="how-it-works.html">How it works</a>
+          <a href="about.html">About</a>
+        </div>
+        <div class="footer-col">
+          <h4>Start</h4>
+          <a href="shop.html">Shop</a>
+          <a href="order.html">Get a quote</a>
+          <a href="brand.html">Brand</a>
+        </div>
+        <div class="footer-col">
+          <h4>Legal</h4>
+          <a href="legal/terms.html">Terms</a>
+          <a href="legal/privacy.html">Privacy</a>
+          <a href="legal/disclaimer.html">Disclaimer</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 ClearStack · Service-area Document → searchable digital books</p>
+      <div class="footer-links">
+        <a href="legal/terms.html">Terms</a>
+        <a href="legal/privacy.html">Privacy</a>
+        <a href="legal/disclaimer.html">Disclaimer</a>
+      </div>
+    </div>
+  </div>
+</footer>
+<script src="script.js"></script>
+<script src="clearstack-shop-config.js"></script>
+<script src="shop.js"></script>
+</body>
+</html>

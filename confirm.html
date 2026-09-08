@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="ClearStack order confirmation — your CS- order id and deposit next steps.">
+<meta name="theme-color" content="#0a1628">
+<meta name="robots" content="noindex">
+<title>Order confirmation — ClearStack</title>
+<link rel="icon" href="brand/logos/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="brand/exports/icon-180.png">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <a class="logo" href="index.html" aria-label="ClearStack home">
+      <img class="logo-mark" src="brand/logos/clearstack-mark.svg" alt="" height="42" width="42">
+      <img class="logo-wordmark" src="brand/logos/clearstack-wordmark-dark.svg" alt="ClearStack" height="42" width="240">
+    </a>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="main-nav">Menu</button>
+    <nav aria-label="Primary"><ul class="nav-list" id="main-nav"><li><a href="index.html">Home</a></li><li><a href="services.html">Services</a></li><li><a href="quote.html">Quote</a></li>
+        <li><a href="packaging.html">Packaging</a></li>
+        <li><a href="pricing.html">Pricing</a></li><li><a href="shop.html">Shop</a></li><li><a href="how-it-works.html">How it works</a></li><li><a href="about.html">About</a></li><li><a class="btn-nav" href="shop.html">Shop</a></li></ul></nav>
+  </div>
+</header>
+<main>
+<section class="section"><div class="container" style="max-width:720px">
+<p class="tagline">Paper in. Searchable book out.</p>
+<h1 class="section-title">Order confirmation</h1>
+<hr class="hairline">
+<div class="form-card" id="confirm-card">
+  <p class="note" id="confirm-missing" hidden>No order found in this browser session. <a href="shop.html">Return to Shop</a> to place an order.</p>
+  <div id="confirm-body" hidden>
+    <p class="badge">Confirmed locally</p>
+    <h2 class="shop-h2" style="margin-top:.5rem">Order <span id="confirm-id">CS-</span></h2>
+    <p class="section-lead" style="margin-bottom:1rem">Deposit due: <strong id="confirm-deposit">$0.00</strong> · Pay method: <strong id="confirm-pay">—</strong></p>
+    <p class="note">Save this CS- id. Use it as your Zelle memo or when you reply about a Stripe Payment Link.</p>
+    <h3 class="shop-h2" style="font-size:1.05rem;margin-top:1.25rem">Order JSON</h3>
+    <pre id="confirm-json" class="order-json"></pre>
+    <div class="form-actions">
+      <button type="button" class="btn btn-outline" id="btn-copy-json">Copy JSON</button>
+      <a class="btn btn-gold" id="btn-mailto-confirm" href="#">Email confirmation to ClearStack</a>
+      <a class="btn btn-outline" href="shop.html">Back to Shop</a>
+    </div>
+    <p class="note">Confirmation email goes to <strong>Mina.Fakhouri@Hotmail.com</strong> for now. Future From address: <strong>hello@goclearstack.com</strong>.</p>
+  </div>
+</div>
+</div></section>
+</main>
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <img class="footer-mark" src="brand/logos/clearstack-wordmark-dark.svg" alt="ClearStack" height="36" width="200">
+        <p>Paper in. Searchable book out.</p>
+      </div>
+      <div class="footer-nav">
+        <div class="footer-col">
+          <h4>Start</h4>
+          <a href="shop.html">Shop</a>
+          <a href="pricing.html">Pricing</a>
+        </div>
+        <div class="footer-col">
+          <h4>Legal</h4>
+          <a href="legal/terms.html">Terms</a>
+          <a href="legal/privacy.html">Privacy</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 ClearStack</p>
+    </div>
+  </div>
+</footer>
+<script src="script.js"></script>
+<script src="clearstack-shop-config.js"></script>
+<script>
+(function () {
+  const CFG = window.CLEARSTACK_SHOP || {};
+  const money = (n) =>
+    "$" + (Math.round(n * 100) / 100).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  let order = null;
+  try {
+    order = JSON.parse(sessionStorage.getItem("clearstack_last_order") || "null");
+  } catch (_) {}
+  const params = new URLSearchParams(window.location.search);
+  if (order && params.get("id") && params.get("id") !== order.orderId) {
+    /* keep session order; id mismatch still show session */
+  }
+  if (!order) {
+    document.getElementById("confirm-missing").hidden = false;
+    return;
+  }
+  document.getElementById("confirm-body").hidden = false;
+  document.getElementById("confirm-id").textContent = order.orderId;
+  document.getElementById("confirm-deposit").textContent = money(order.math.depositDue);
+  document.getElementById("confirm-pay").textContent =
+    order.payMethod === "zelle" ? "Zelle (−15% package)" : "Visa/Mastercard (Stripe)";
+  const json = JSON.stringify(order, null, 2);
+  document.getElementById("confirm-json").textContent = json;
+
+  document.getElementById("btn-copy-json").addEventListener("click", async () => {
+    const btn = document.getElementById("btn-copy-json");
+    try {
+      await navigator.clipboard.writeText(json);
+      btn.textContent = "Copied";
+      setTimeout(() => { btn.textContent = "Copy JSON"; }, 2000);
+    } catch (_) {
+      btn.textContent = "Select JSON below";
+    }
+  });
+
+  const to = CFG.confirmTo || "Mina.Fakhouri@Hotmail.com";
+  const fromNote = CFG.confirmFromFuture || "hello@goclearstack.com";
+  const body = encodeURIComponent(
+    "ClearStack order confirmation request\n\n" +
+      "Order ID: " + order.orderId + "\n" +
+      "Deposit due: " + money(order.math.depositDue) + "\n" +
+      "Pay method: " + order.payMethod + "\n\n" +
+      json +
+      "\n\n(Future automated From: " + fromNote + ")\n"
+  );
+  document.getElementById("btn-mailto-confirm").href =
+    "mailto:" + to +
+    "?subject=" + encodeURIComponent("ClearStack order " + order.orderId + " — confirmation") +
+    "&body=" + body;
+})();
+</script>
+</body>
+</html>
