@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="ClearStack shop — choose Starter $89, Binder $169, Multi $299, or Box $399. Live cart, 50% deposit via Visa/Mastercard (Stripe) or Zelle (−15% off package).">
-<meta name="theme-color" content="#0a1628">
+<meta name="theme-color" content="#030d1a">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="ClearStack">
 <meta property="og:title" content="Shop — ClearStack">
@@ -17,6 +17,9 @@
 <title>Shop — ClearStack</title>
 <link rel="icon" href="brand/logos/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="brand/exports/icon-180.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800;1,9..40,400&family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -35,9 +38,9 @@
 <main>
 <section class="section"><div class="container">
 <p class="tagline">Paper in. Searchable book out.</p>
-<h1 class="section-title">Shop ClearStack packages</h1>
+<h1 class="section-title">Choose your package</h1>
 <hr class="hairline">
-<p class="section-lead">Select a package, add-ons, and pay method. Live cart shows list total and <strong>50% deposit due</strong> — cards at full list; Zelle at −15% off package total.</p>
+<p class="section-lead">Pick a tier, add-ons, and pay method. Live cart locks in list total and your <strong>50% deposit</strong> — cards at full list; Zelle −15% off package only.</p>
 
 <div class="shop-layout" id="shop-form">
   <div class="shop-main">
@@ -183,7 +186,7 @@
       </div>
 
       <div id="pay-card-panel" class="pay-panel">
-        <p class="note">Card deposits use Stripe Payment Links (placeholders until Mina pastes live URLs in <code>clearstack-shop-config.js</code>).</p>
+        <p class="note">Card deposits use Stripe Payment Links (placeholders until live Payment Link URLs are set in <code>clearstack-shop-config.js</code>).</p>
         <a class="btn btn-gold" id="btn-stripe" href="#">Pay deposit with card</a>
       </div>
       <div id="pay-zelle-panel" class="pay-panel" hidden>
@@ -212,7 +215,7 @@
       </div>
     </div>
     <button type="button" class="btn btn-gold btn-block" id="btn-place-order">Place order / Request confirm</button>
-    <p class="note">Generates a CS- order id and opens confirmation. Balance due after digital proof approval. Brand inbox: confirmations currently to Mina; future From <strong>hello@goclearstack.com</strong>.</p>
+    <p class="note">Generates a CS- order id and opens confirmation. Balance due after digital proof approval. Confirmations go to the ClearStack orders inbox.</p>
     <p class="note"><a href="pricing.html">See full pricing</a> · <a href="order.html">Detailed quote form</a></p>
   </aside>
 </div>
@@ -249,7 +252,7 @@
       </div>
     </div>
     <div class="footer-bottom">
-      <p>© 2026 ClearStack · Orders · Zelle or invoice · <a href="tel:+16267796345">(626) 779-6345</a> · <a href="mailto:Mina.Fakhouri@Hotmail.com">Mina.Fakhouri@Hotmail.com</a> · Upland 91786 (no street)</p>
+      <p>© 2026 ClearStack · Orders · Zelle or invoice · <a href="tel:+16267796345">(626) 779-6345</a> · <a href="mailto:Mina.Fakhouri@Hotmail.com">Email ClearStack</a> · Upland 91786 (no street)</p>
       <div class="footer-links">
         <a href="legal/terms.html">Terms</a>
         <a href="legal/privacy.html">Privacy</a>
