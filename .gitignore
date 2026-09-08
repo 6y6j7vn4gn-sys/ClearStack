@@ -7,11 +7,9 @@ video/
 *.log
 .venv*/
 
-# Never publish operator internals
+# Never publish operator internals (Business School learn/ + benchmarks.html ARE public by Daily Lesson routine)
 GUIDEBOOK.md
 guidebook.html
-benchmarks.html
-learn/
 exec/
 money/
 market/
