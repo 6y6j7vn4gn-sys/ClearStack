@@ -1,0 +1,28 @@
+ClearStack logo variants — designer-2026-09-08
+Brand: ClearStack only | Navy #0a1628 + Gold #c9a227 | Style: cinematic premium classy-tech
+Method: Pillow composition (cursor GenerateImage not available to executor subagent).
+Tagline: Paper in. Searchable book out. | Slogan: We pick up.
+
+FILES
+-----
+clearstack-primary-lockup.png
+  Primary horizontal lockup — paper→gold-pixels→digital-book mark + ClearStack wordmark + tagline + slogan on deep navy.
+  Use: website header, decks, social cover, ads. ~16:9 (1920×1080).
+
+clearstack-mark.png
+  Icon/mark only — stacked papers transforming via gold pixel bridge into CS digital book with gold edge light.
+  Use: app icon, favicon source, avatar, watermark. 1:1 (1024×1024).
+
+clearstack-wordmark.png
+  Wordmark only — Clear (gold) + Stack (cream), gold underline, tagline centered.
+  Use: email signatures, footers, wide banners. ~16:9 (1920×1080).
+
+clearstack-variant-stacked.png
+  Vertical stacked lockup — mark above wordmark + tagline + WE PICK UP.
+  Use: Stories/Reels, mobile splash, packaging. ~3:4 (1080×1440).
+
+clearstack-variant-reverse-gold-on-navy.png
+  Reverse lockup — gold-bordered navy plate on cream with mark + wordmark.
+  Use: print, business cards, light-background placements. ~16:9 (1600×900).
+
+Public brand is ClearStack only — never personal names on these assets.
