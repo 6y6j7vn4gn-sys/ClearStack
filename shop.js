@@ -320,7 +320,7 @@
           weightBand: s.intake === "upload" ? null : s.weightBand,
           charge: m.mustShipCharge,
           note: m.mustShipNeeded
-            ? "Est. from weight · final after UPS rate, billed at listed shipping — operator: ceil(UPS×1.5)"
+            ? "Est. from weight · final after UPS rate, billed at listed shipping"
             : null
         },
         van: { selected: false, miles: null, city: null, charge: 0, note: "Not offered — hub automation + UPS Pickup" },
@@ -387,8 +387,7 @@
           (order.addons.mustShipping.quoted
             ? "Quoted"
             : money(order.addons.mustShipping.charge) +
-              " · final = after UPS rate, billed at our listed shipping") +
-          " · operator: bill ceil(UPS×1.5)"
+              " · final = after UPS rate, billed at our listed shipping")
         : "UPS shipping (hub→you): $0 (upload / no outbound)",
       "Paper fate: " +
         (order.paperFate === "shred"
@@ -427,25 +426,22 @@
         : null,
       "",
       "— UPS / LABELS (TWO TASKS) —",
-      "Hub: Upland, CA 91786 — street on UPS label PDF after deposit only (never on site / email body)",
-      "Task 1 DROP hub→client · Task 2 PICKUP client→ClearStack PMB / Upland receive — both ceil(UPS×1.5)",
-      order.kitSize ? "KIT-OUT prepaid UPS kit after deposit posts" : null,
-      order.upsPickup ? "Task 2 PICKUP: schedule UPS at client door after deposit ($24) → Upland receive" : null,
+      "Hub: Upland, CA 91786 — street on UPS label PDF after deposit only (never on this site)",
+      "We pick up. Task 2 UPS Pickup at your door ($24) · Task 1 DROP shipping hub→you (required on physical jobs)",
+      order.kitSize ? "Prepaid UPS kit ships after deposit posts" : null,
+      order.upsPickup ? "UPS Pickup at your door: " + money(order.addons.upsPickup.charge) + " after deposit → Upland receive" : null,
       order.addons.mustShipping && order.addons.mustShipping.selected
-        ? "Task 1 DROP must shipping — bill ceil(UPS×1.5); cart showed estimate"
+        ? "UPS shipping (hub→you): estimate in cart; final after UPS rate on deposit invoice"
         : null,
       order.intake === "ship" || (order.intake === "kit" && !order.upsPickup)
-        ? "Issue inbound / RET label from Upland hub after deposit; tracking the hour it prints"
+        ? "Inbound UPS label issued after deposit; tracking when it prints"
         : null,
       order.addons.returnMail && order.addons.returnMail.selected ? "Return-mail labels after approval" : null,
-      order.paperFate === "shred" ? "SHRED — do not return originals" : null,
-      "",
-      "— PLAN (operator SOP) —",
-      ...(order.operatorSop || []),
+      order.paperFate === "shred" ? "Certified shred — originals not returned" : null,
       "",
       "Notes: " + (order.notes || "—"),
       "",
-      "Confirm to: " + CFG.confirmTo,
+      "Questions: Email ClearStack · (626) 779-6345",
       "Future From: " + CFG.confirmFromFuture
     ];
     return lines.filter((x) => x !== null).join("\n");

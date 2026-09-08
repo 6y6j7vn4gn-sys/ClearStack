@@ -79,7 +79,7 @@ window.CLEARSTACK_SHOP = {
     must: true,
     label: "UPS shipping (hub → you)",
     mode: "actual_x1_5",
-    note: "Final amount = ceil(UPS × 1.5) after address; billed on deposit invoice. Cart shows estimate from weight band + ship region. Never show 1.5× to clients."
+    note: "Final amount after UPS rate on deposit invoice. Cart shows estimate from weight band + ship region."
   },
   shipRegions: {
     local: { id: "local", label: "California / nearby", short: "CA / nearby", note: "Zone ~2–4 from Upland hub" },

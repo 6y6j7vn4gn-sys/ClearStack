@@ -97,13 +97,23 @@
   document.getElementById("confirm-deposit").textContent = money(order.math.depositDue);
   document.getElementById("confirm-pay").textContent =
     order.payMethod === "zelle" ? "Zelle (−15% package)" : "Visa/Mastercard (Stripe)";
-  const json = JSON.stringify(order, null, 2);
-  document.getElementById("confirm-json").textContent = json;
+  // Client view: strip operator-only fields (never show markup math / SOP).
+  const clientOrder = JSON.parse(JSON.stringify(order));
+  delete clientOrder.operatorSop;
+  if (clientOrder.addons && clientOrder.addons.mustShipping) {
+    if (clientOrder.addons.mustShipping.note) {
+      clientOrder.addons.mustShipping.note =
+        "Est. from weight · final after UPS rate, billed at listed shipping";
+    }
+  }
+  const clientJson = JSON.stringify(clientOrder, null, 2);
+  const opsJson = JSON.stringify(order, null, 2);
+  document.getElementById("confirm-json").textContent = clientJson;
 
   document.getElementById("btn-copy-json").addEventListener("click", async () => {
     const btn = document.getElementById("btn-copy-json");
     try {
-      await navigator.clipboard.writeText(json);
+      await navigator.clipboard.writeText(clientJson);
       btn.textContent = "Copied";
       setTimeout(() => { btn.textContent = "Copy JSON"; }, 2000);
     } catch (_) {
@@ -118,7 +128,7 @@
       "Order ID: " + order.orderId + "\n" +
       "Deposit due: " + money(order.math.depositDue) + "\n" +
       "Pay method: " + order.payMethod + "\n\n" +
-      json +
+      opsJson +
       "\n\n(Future automated From: " + fromNote + ")\n"
   );
   document.getElementById("btn-mailto-confirm").href =
