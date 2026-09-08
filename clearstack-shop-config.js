@@ -12,7 +12,7 @@
  *   Kits (carton + label materials approx): mailer ~$26→$39 · small ~$43→$65 · letter ~$52→$78
  *   legal ~$61→$92 · medium ~$77→$116 · large ~$123→$185 · xl ~$165→$248 · custom = Quoted
  * Van ($9/mi): LEGACY / NOT offered on public shop — Mina does not drive to clients.
- * Automation starts at Upland, CA 91786 hub. Impress path = prepaid kit + UPS Pickup $12.
+ * Automation starts at Upland, CA 91786 hub. Impress path = prepaid kit + UPS Pickup $12 (default on kit|ship & physical add-on paths).
  * Receiving: “Upland hub — street on your UPS label after deposit.” Never invent PMB #; never publish home street.
  */
 window.CLEARSTACK_SHOP = {
@@ -69,7 +69,7 @@ window.CLEARSTACK_SHOP = {
     rush: { id: "rush", label: "24-Hour Rush", pct: 0.30 },
     shred: { id: "shred", label: "Certified shred", pricePerBox: 15 },
     returnMail: { id: "return-mail", label: "Return-mail labels", price: 18, note: "Hidden when kit (labels included)" },
-    upsPickup: { id: "ups-pickup", label: "UPS Pickup at your door", price: 12 },
+    upsPickup: { id: "ups-pickup", label: "UPS Pickup at your door", price: 12, note: "Default on for kit|ship; stays on for physical collection paths unless client unchecks" },
     indexing: { id: "indexing", label: "Custom indexing note", hourly: 35, quoted: true }
   },
   /** Paste live Stripe Payment Link URLs here (deposit at list 50%). Empty = mailto fallback. */

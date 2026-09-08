@@ -66,7 +66,7 @@
    *         + rush (+30% of subtotal before rush)
    * - USB free/auto on Multi (included, $0)
    * - Kit charge only when intake=kit
-   * - ups-pickup only when checked and intake kit|ship (featured default on kit)
+   * - ups-pickup only when checked and intake kit|ship (default on kit|ship; stays on for physical paths unless unchecked)
    * - Operator van NOT on public shop (CFG.van.enabled === false)
    * - return-mail only when not kit (kit includes labels)
    * - Zelle: −15% off package total only; add-ons at list
@@ -301,6 +301,25 @@
     return lines.filter((x) => x !== null).join("\n");
   }
 
+  /** Physical paths that need door collection: kit/ship intake, return originals later, USB ship-back. */
+  function needsUpsCollection(s) {
+    if (s.intake === "kit" || s.intake === "ship") return true;
+    if (s.returnMail && (s.intake === "kit" || s.intake === "ship")) return true;
+    if (s.usb && (s.intake === "kit" || s.intake === "ship")) return true;
+    return false;
+  }
+
+  function ensureUpsPickupDefault(s) {
+    const upsEl = document.getElementById("addon-ups-pickup");
+    if (!upsEl) return;
+    const upsAllowed = s.intake === "kit" || s.intake === "ship";
+    if (!upsAllowed) return;
+    // Keep UPS on for every physical collection path unless client explicitly unchecked.
+    if (needsUpsCollection(s) && !upsEl.dataset.userTouched) {
+      upsEl.checked = true;
+    }
+  }
+
   function syncIntakeUI(s) {
     const kitWrap = document.getElementById("kit-size-wrap");
     const upsWrap = document.getElementById("ups-pickup-wrap");
@@ -311,13 +330,15 @@
     if (kitWrap) kitWrap.hidden = s.intake !== "kit";
     if (upsWrap) upsWrap.hidden = !(s.intake === "kit" || s.intake === "ship");
 
-    // UPS Pickup available for kit|ship only (featured). Disabled for dropoff/upload.
+    // UPS Pickup available for kit|ship only (featured). Disabled for dropoff/upload. Van never offered.
     if (upsEl) {
       if (s.intake === "dropoff" || s.intake === "upload") {
         upsEl.checked = false;
         upsEl.disabled = true;
       } else {
         upsEl.disabled = false;
+        // kit|ship: keep default checked ($12) unless user explicitly unchecked
+        if (!upsEl.dataset.userTouched) upsEl.checked = true;
       }
     }
 
@@ -332,6 +353,8 @@
         if (returnRow) returnRow.hidden = false;
       }
     }
+
+    ensureUpsPickupDefault(s);
   }
 
   function renderCart() {
@@ -542,13 +565,12 @@
       body;
   }
 
-  // Featured default: kit + UPS Pickup checked in HTML; re-check UPS when returning to kit/ship if untouched.
+  // Featured default: kit|ship + UPS Pickup ($12) checked; stay on for physical add-ons unless user unchecks.
   document.querySelectorAll('input[name="intake"]').forEach((el) => {
     el.addEventListener("change", () => {
       const ups = document.getElementById("addon-ups-pickup");
       if (ups && (el.value === "kit" || el.value === "ship") && !ups.disabled) {
-        // Keep impress path: if switching to kit/ship and ups was disabled previously, restore recommended default
-        if (el.value === "kit" && !ups.dataset.userTouched) ups.checked = true;
+        if (!ups.dataset.userTouched) ups.checked = true;
       }
       renderCart();
     });
@@ -561,6 +583,18 @@
       renderCart();
     });
   }
+
+  // Physical add-ons (return originals later, USB ship-back): keep UPS on unless user unchecked.
+  ["addon-return-mail", "addon-usb"].forEach((id) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.addEventListener("change", () => {
+      const ups = document.getElementById("addon-ups-pickup");
+      const intake = (document.querySelector('input[name="intake"]:checked') || {}).value;
+      if (!ups || ups.disabled || ups.dataset.userTouched) return;
+      if (el.checked && (intake === "kit" || intake === "ship")) ups.checked = true;
+    });
+  });
 
   document.querySelectorAll("#shop-form input, #shop-form select, #shop-form textarea").forEach((el) => {
     el.addEventListener("input", renderCart);
