@@ -22,25 +22,57 @@
     if (pkg && pkg.qtyEnabled) {
       qty = Math.max(1, parseInt(document.getElementById("box-qty").value, 10) || 1);
     }
+    const intake = (document.querySelector('input[name="intake"]:checked') || {}).value || "kit";
+    const kitSize = (document.getElementById("kit-size") || {}).value || "letter";
+    const upsPickup = !!(document.getElementById("addon-ups-pickup") || {}).checked;
+    // Van / operator drive NOT offered on public shop (legacy disabled).
+    const vanMiles = null;
+    const vanCity = null;
     const usb = document.getElementById("addon-usb").checked;
     const rush = document.getElementById("addon-rush").checked;
     const shred = document.getElementById("addon-shred").checked;
+    const returnMail = !!(document.getElementById("addon-return-mail") || {}).checked;
     const indexing = document.getElementById("addon-indexing").checked;
     const notes = (document.getElementById("order-notes").value || "").trim();
-    const pay = (document.querySelector('input[name="pay"]:checked') || {}).value || "card";
+    const pay = (document.querySelector('input[name="pay"]:checked') || {}).value || "zelle";
     const name = (document.getElementById("cust-name").value || "").trim();
     const email = (document.getElementById("cust-email").value || "").trim();
     const phone = (document.getElementById("cust-phone").value || "").trim();
-    return { pkgId, pkg, qty, usb, rush, shred, indexing, notes, pay, name, email, phone };
+    return {
+      pkgId,
+      pkg,
+      qty,
+      intake,
+      kitSize,
+      upsPickup,
+      vanMiles,
+      vanCity,
+      usb,
+      rush,
+      shred,
+      returnMail,
+      indexing,
+      notes,
+      pay,
+      name,
+      email,
+      phone
+    };
   }
 
   /**
    * Locked math:
-   * - list = package (+ qty for Box) + paid add-ons + rush (+30% of subtotal before rush)
+   * - list = package (+ qty for Box) + paid add-ons (USB, shred, kit, ups-pickup, van, return-mail)
+   *         + rush (+30% of subtotal before rush)
    * - USB free/auto on Multi (included, $0)
+   * - Kit charge only when intake=kit
+   * - ups-pickup only when checked and intake kit|ship (featured default on kit)
+   * - Operator van NOT on public shop (CFG.van.enabled === false)
+   * - return-mail only when not kit (kit includes labels)
    * - Zelle: −15% off package total only; add-ons at list
    * - Cards deposit: 50% of list
    * - Zelle deposit: 50% of (package×0.85 + add-ons + rush on that base)
+   * Never expose operator cost or 1.5× markup to clients.
    */
   function compute(s) {
     const packageList = round2(s.pkg.price * s.qty);
@@ -49,7 +81,26 @@
     const usbCharge = usbIncluded ? 0 : s.usb ? CFG.addons.usb.price : 0;
     const shredUnits = s.pkg.qtyEnabled ? s.qty : 1;
     const shredCharge = s.shred ? round2(CFG.addons.shred.pricePerBox * shredUnits) : 0;
-    const addonsList = round2(usbCharge + shredCharge);
+
+    const kitDef = (CFG.kits && CFG.kits[s.kitSize]) || null;
+    const kitQuoted = !!(kitDef && kitDef.quoted);
+    const kitCharge =
+      s.intake === "kit" && kitDef && !kitQuoted ? round2(kitDef.price) : 0;
+
+    const upsAllowed = s.intake === "kit" || s.intake === "ship";
+    const upsPickupCharge =
+      upsAllowed && s.upsPickup ? round2(CFG.addons.upsPickup.price) : 0;
+
+    // Legacy van: never charge on public shop
+    const vanMilesCharge = 0;
+
+    const returnMailAllowed = s.intake !== "kit";
+    const returnMailCharge =
+      returnMailAllowed && s.returnMail ? round2(CFG.addons.returnMail.price) : 0;
+
+    const addonsList = round2(
+      usbCharge + shredCharge + kitCharge + upsPickupCharge + vanMilesCharge + returnMailCharge
+    );
     const subBeforeRush = round2(packageList + addonsList);
     const rushCharge = s.rush ? round2(subBeforeRush * CFG.addons.rush.pct) : 0;
     const listTotal = round2(subBeforeRush + rushCharge);
@@ -69,6 +120,12 @@
       usbCharge,
       shredCharge,
       shredUnits,
+      kitCharge,
+      kitQuoted: s.intake === "kit" && kitQuoted,
+      kitLabel: kitDef ? kitDef.label : s.kitSize,
+      upsPickupCharge,
+      vanMilesCharge,
+      returnMailCharge,
       addonsList,
       rushCharge,
       listTotal,
@@ -81,12 +138,45 @@
     };
   }
 
+  function operatorSopLines(s, m) {
+    const lines = ["Operator SOP (labels / logistics — after deposit):"];
+    if (s.intake === "kit") {
+      lines.push(
+        "• KIT-OUT: mail empty prepaid UPS kit carton (" +
+          (m.kitLabel || s.kitSize) +
+          ") + both UPS labels from Upland hub; client packs & drops (or UPS Pickup if selected)."
+      );
+    }
+    if (s.intake === "ship" || (s.intake === "kit" && !s.upsPickup)) {
+      lines.push("• RET / inbound: issue inbound UPS label from Upland hub after deposit; send tracking the hour it prints.");
+    }
+    if (m.upsPickupCharge > 0 || (s.upsPickup && (s.intake === "kit" || s.intake === "ship"))) {
+      lines.push("• ups-pickup: labels from Upland hub; schedule UPS Pickup at client door after deposit ($12).");
+    }
+    if (m.returnMailCharge > 0) {
+      lines.push("• RET return-mail: issue return labels ($18) — originals mail-back after approval.");
+    }
+    if (s.intake === "dropoff") {
+      lines.push("• Drop-off: Upland, CA 91786 hub (cash OK). Street only on UPS label / appointment — never on site.");
+    }
+    if (s.intake === "upload") {
+      lines.push("• Upload: secure digital intake — no physical labels.");
+    }
+    if (lines.length === 1) lines.push("• (no label rails for this intake)");
+    return lines;
+  }
+
   function buildOrder(s, m, orderId) {
     return {
       orderId: orderId || genOrderId(),
       brand: CFG.brand,
       createdAt: new Date().toISOString(),
       customer: { name: s.name, email: s.email, phone: s.phone },
+      intake: s.intake,
+      kitSize: s.intake === "kit" ? s.kitSize : null,
+      upsPickup: !!(s.upsPickup && (s.intake === "kit" || s.intake === "ship")),
+      vanMiles: null,
+      vanCity: null,
       package: {
         id: s.pkgId,
         name: s.pkg.name,
@@ -98,6 +188,21 @@
         usb: { selected: s.usb || m.usbAuto, includedFree: m.usbIncluded, charge: m.usbCharge },
         rush: { selected: s.rush, charge: m.rushCharge },
         shred: { selected: s.shred, units: m.shredUnits, charge: m.shredCharge },
+        kit: {
+          selected: s.intake === "kit",
+          size: s.intake === "kit" ? s.kitSize : null,
+          quoted: m.kitQuoted,
+          charge: m.kitCharge
+        },
+        upsPickup: {
+          selected: !!(s.upsPickup && (s.intake === "kit" || s.intake === "ship")),
+          charge: m.upsPickupCharge
+        },
+        van: { selected: false, miles: null, city: null, charge: 0, note: "Not offered — hub automation + UPS Pickup" },
+        returnMail: {
+          selected: s.intake !== "kit" && s.returnMail,
+          charge: m.returnMailCharge
+        },
         indexing: {
           selected: s.indexing,
           quoted: true,
@@ -105,6 +210,7 @@
           note: s.indexing ? "Custom indexing — $35/hr quoted after review" : null
         }
       },
+      operatorSop: operatorSopLines(s, m),
       notes: s.notes,
       payMethod: s.pay,
       math: {
@@ -115,6 +221,10 @@
         zelleDeposit: m.zelleDeposit,
         depositDue: m.depositDue,
         orderTotal: m.orderTotal,
+        kitCharge: m.kitCharge,
+        upsPickupCharge: m.upsPickupCharge,
+        vanMilesCharge: m.vanMilesCharge,
+        returnMailCharge: m.returnMailCharge,
         zelleDiscountPct: CFG.zelleDiscount,
         depositPct: CFG.depositPct
       }
@@ -122,6 +232,8 @@
   }
 
   function summaryText(order) {
+    const intakeLabel =
+      (CFG.intake && CFG.intake[order.intake] && CFG.intake[order.intake].label) || order.intake || "—";
     const lines = [
       "ClearStack order " + order.orderId,
       "Paper in. Searchable book out.",
@@ -130,7 +242,15 @@
       "Email: " + (order.customer.email || "—"),
       "Phone: " + (order.customer.phone || "—"),
       "",
+      "— PACKAGE / INTAKE —",
       "Package: " + order.package.name + " × " + order.package.qty + " — " + money(order.package.lineTotal),
+      "Intake: " + intakeLabel,
+      order.kitSize
+        ? "Prepaid UPS kit: " +
+          order.kitSize +
+          (order.addons.kit.quoted ? " (Quoted)" : " — " + money(order.addons.kit.charge))
+        : null,
+      order.upsPickup ? "UPS Pickup at door: " + money(order.addons.upsPickup.charge) : "UPS Pickup: No",
       "USB encrypted: " +
         (order.addons.usb.includedFree
           ? "Included (Multi)"
@@ -142,14 +262,36 @@
         (order.addons.shred.selected
           ? money(order.addons.shred.charge) + " (" + order.addons.shred.units + " box unit(s))"
           : "No"),
+      "Return-mail: " +
+        (order.addons.returnMail.selected
+          ? money(order.addons.returnMail.charge)
+          : order.intake === "kit"
+            ? "Included with prepaid UPS kit"
+            : "No"),
       "Custom indexing: " + (order.addons.indexing.selected ? "$35/hr quoted" : "No"),
       "",
+      "— PAY —",
       "Pay method: " + (order.payMethod === "zelle" ? "Zelle (−15% off package)" : "Visa/Mastercard (Stripe) — full list"),
       "List total: " + money(order.math.listTotal),
       order.payMethod === "zelle"
         ? "Zelle total (after −15% on package): " + money(order.math.zelleTotal)
         : null,
       "Deposit due (50%): " + money(order.math.depositDue),
+      order.payMethod === "zelle"
+        ? "Zelle memo: " + order.orderId + " · phone (626) 779-6345"
+        : null,
+      "",
+      "— UPS / LABELS —",
+      "Hub: Upland, CA 91786 — street on UPS label PDF after deposit only (never on site / email body)",
+      order.kitSize ? "KIT-OUT prepaid UPS kit after deposit posts" : null,
+      order.upsPickup ? "Schedule UPS Pickup at client door after deposit ($12) — impress path" : null,
+      order.intake === "ship" || (order.intake === "kit" && !order.upsPickup)
+        ? "Issue inbound / RET label from Upland hub after deposit; tracking the hour it prints"
+        : null,
+      order.addons.returnMail && order.addons.returnMail.selected ? "Return-mail labels after approval" : null,
+      "",
+      "— PLAN (operator SOP) —",
+      ...(order.operatorSop || []),
       "",
       "Notes: " + (order.notes || "—"),
       "",
@@ -159,35 +301,96 @@
     return lines.filter((x) => x !== null).join("\n");
   }
 
+  function syncIntakeUI(s) {
+    const kitWrap = document.getElementById("kit-size-wrap");
+    const upsWrap = document.getElementById("ups-pickup-wrap");
+    const upsEl = document.getElementById("addon-ups-pickup");
+    const returnEl = document.getElementById("addon-return-mail");
+    const returnRow = document.getElementById("return-mail-row");
+
+    if (kitWrap) kitWrap.hidden = s.intake !== "kit";
+    if (upsWrap) upsWrap.hidden = !(s.intake === "kit" || s.intake === "ship");
+
+    // UPS Pickup available for kit|ship only (featured). Disabled for dropoff/upload.
+    if (upsEl) {
+      if (s.intake === "dropoff" || s.intake === "upload") {
+        upsEl.checked = false;
+        upsEl.disabled = true;
+      } else {
+        upsEl.disabled = false;
+      }
+    }
+
+    // return-mail only if not kit (kit includes labels)
+    if (returnEl) {
+      if (s.intake === "kit") {
+        returnEl.checked = false;
+        returnEl.disabled = true;
+        if (returnRow) returnRow.hidden = true;
+      } else {
+        returnEl.disabled = false;
+        if (returnRow) returnRow.hidden = false;
+      }
+    }
+  }
+
   function renderCart() {
     const s = stateFromForm();
-    const m = compute(s);
+    syncIntakeUI(s);
+    // Re-read after sync (ups/return may have been cleared)
+    const s2 = stateFromForm();
+    const m = compute(s2);
 
     const qtyWrap = document.getElementById("qty-wrap");
-    if (qtyWrap) qtyWrap.hidden = !s.pkg.qtyEnabled;
+    if (qtyWrap) qtyWrap.hidden = !s2.pkg.qtyEnabled;
 
     const usbEl = document.getElementById("addon-usb");
     const usbHint = document.getElementById("usb-hint");
-    if (s.pkg.usbIncluded) {
+    if (s2.pkg.usbIncluded) {
       usbEl.checked = true;
       usbEl.disabled = true;
       if (usbHint) usbHint.textContent = "Included free on Multi — auto-selected";
     } else {
       usbEl.disabled = false;
-      if (usbHint) usbHint.textContent = "+$25 encrypted USB";
+      if (usbHint) usbHint.textContent = "+$27 encrypted USB";
     }
 
     const lines = document.getElementById("cart-lines");
     const bits = [];
     bits.push(
       "<div class=\"cart-line\"><span>" +
-        s.pkg.short +
-        (s.pkg.qtyEnabled ? " × " + s.qty : "") +
+        s2.pkg.short +
+        (s2.pkg.qtyEnabled ? " × " + s2.qty : "") +
         "</span><strong>" +
         money(m.packageList) +
         "</strong></div>"
     );
-    if (m.usbIncluded || s.usb) {
+
+    const intakeShort =
+      (CFG.intake && CFG.intake[s2.intake] && CFG.intake[s2.intake].short) || s2.intake;
+    bits.push(
+      "<div class=\"cart-line muted\"><span>Intake: " +
+        intakeShort +
+        "</span><strong></strong></div>"
+    );
+
+    if (s2.intake === "kit") {
+      bits.push(
+        "<div class=\"cart-line\"><span>Prepaid UPS kit (" +
+          m.kitLabel +
+          ")</span><strong>" +
+          (m.kitQuoted ? "Quoted" : money(m.kitCharge)) +
+          "</strong></div>"
+      );
+    }
+    if (m.upsPickupCharge > 0) {
+      bits.push(
+        "<div class=\"cart-line\"><span>UPS Pickup</span><strong>" +
+          money(m.upsPickupCharge) +
+          "</strong></div>"
+      );
+    }
+    if (m.usbIncluded || s2.usb) {
       bits.push(
         "<div class=\"cart-line\"><span>Encrypted USB" +
           (m.usbIncluded ? " (included)" : "") +
@@ -196,7 +399,7 @@
           "</strong></div>"
       );
     }
-    if (s.shred) {
+    if (s2.shred) {
       bits.push(
         "<div class=\"cart-line\"><span>Certified shred × " +
           m.shredUnits +
@@ -205,14 +408,21 @@
           "</strong></div>"
       );
     }
-    if (s.rush) {
+    if (m.returnMailCharge > 0) {
+      bits.push(
+        "<div class=\"cart-line\"><span>Return-mail</span><strong>" +
+          money(m.returnMailCharge) +
+          "</strong></div>"
+      );
+    }
+    if (s2.rush) {
       bits.push(
         "<div class=\"cart-line\"><span>Rush +30%</span><strong>" +
           money(m.rushCharge) +
           "</strong></div>"
       );
     }
-    if (s.indexing) {
+    if (s2.indexing) {
       bits.push(
         "<div class=\"cart-line\"><span>Custom indexing</span><strong>$35/hr quoted</strong></div>"
       );
@@ -227,13 +437,13 @@
     const depositEl = document.getElementById("cart-deposit-due");
     depositEl.textContent = money(m.depositDue);
     document.getElementById("deposit-rail-label").textContent =
-      s.pay === "zelle" ? "Zelle rail — 50% of (list × 0.85 on package + add-ons)" : "Card rail — 50% of list";
+      s2.pay === "zelle" ? "Zelle rail — 50% of (list × 0.85 on package + add-ons)" : "Card rail — 50% of list";
 
-    document.getElementById("pay-card-panel").hidden = s.pay !== "card";
-    document.getElementById("pay-zelle-panel").hidden = s.pay !== "zelle";
+    document.getElementById("pay-card-panel").hidden = s2.pay !== "card";
+    document.getElementById("pay-zelle-panel").hidden = s2.pay !== "zelle";
 
     const stripeBtn = document.getElementById("btn-stripe");
-    const link = (CFG.stripePaymentLinks && CFG.stripePaymentLinks[s.pkgId]) || "";
+    const link = (CFG.stripePaymentLinks && CFG.stripePaymentLinks[s2.pkgId]) || "";
     if (link) {
       stripeBtn.textContent = "Pay deposit with card";
       stripeBtn.href = link;
@@ -242,7 +452,7 @@
       stripeBtn.textContent = "Stripe link coming — request quote";
       const body = encodeURIComponent(
         "Hi ClearStack,\n\nI'd like to pay the card deposit for:\n\n" +
-          summaryText(buildOrder(s, m, "(pending)")) +
+          summaryText(buildOrder(s2, m, "(pending)")) +
           "\n\nPlease send a Stripe Payment Link.\n"
       );
       stripeBtn.href =
@@ -261,7 +471,9 @@
 
   function placeOrder() {
     const s = stateFromForm();
-    if (!s.name || !s.email) {
+    syncIntakeUI(s);
+    const s2 = stateFromForm();
+    if (!s2.name || !s2.email) {
       const err = document.getElementById("shop-err");
       err.hidden = false;
       err.textContent = "Name and email are required to place / confirm the order.";
@@ -269,8 +481,8 @@
       return;
     }
     document.getElementById("shop-err").hidden = true;
-    const m = compute(s);
-    const order = buildOrder(s, m);
+    const m = compute(s2);
+    const order = buildOrder(s2, m);
     try {
       sessionStorage.setItem("clearstack_last_order", JSON.stringify(order));
     } catch (_) {}
@@ -280,8 +492,10 @@
 
   function copyZelleSummary() {
     const s = stateFromForm();
-    const m = compute(s);
-    const order = buildOrder(s, m, "(draft)");
+    syncIntakeUI(s);
+    const s2 = stateFromForm();
+    const m = compute(s2);
+    const order = buildOrder(s2, m, "(draft)");
     const text =
       CFG.zelle.instructions +
       "\nDeposit due: " +
@@ -304,8 +518,10 @@
 
   function mailtoZelleConfirm() {
     const s = stateFromForm();
-    const m = compute(s);
-    const order = buildOrder(s, m, "(draft)");
+    syncIntakeUI(s);
+    const s2 = stateFromForm();
+    const m = compute(s2);
+    const order = buildOrder(s2, m, "(draft)");
     const body = encodeURIComponent(
       "Hi ClearStack,\n\nPlease confirm my Zelle deposit request.\n\n" +
         CFG.zelle.instructions +
@@ -324,6 +540,26 @@
       encodeURIComponent("ClearStack Zelle deposit confirmation request") +
       "&body=" +
       body;
+  }
+
+  // Featured default: kit + UPS Pickup checked in HTML; re-check UPS when returning to kit/ship if untouched.
+  document.querySelectorAll('input[name="intake"]').forEach((el) => {
+    el.addEventListener("change", () => {
+      const ups = document.getElementById("addon-ups-pickup");
+      if (ups && (el.value === "kit" || el.value === "ship") && !ups.disabled) {
+        // Keep impress path: if switching to kit/ship and ups was disabled previously, restore recommended default
+        if (el.value === "kit" && !ups.dataset.userTouched) ups.checked = true;
+      }
+      renderCart();
+    });
+  });
+
+  const upsElInit = document.getElementById("addon-ups-pickup");
+  if (upsElInit) {
+    upsElInit.addEventListener("change", () => {
+      upsElInit.dataset.userTouched = "1";
+      renderCart();
+    });
   }
 
   document.querySelectorAll("#shop-form input, #shop-form select, #shop-form textarea").forEach((el) => {

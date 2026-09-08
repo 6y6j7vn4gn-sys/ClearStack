@@ -684,3 +684,18 @@ textarea { min-height: 110px; resize: vertical; }
   .cart-panel { position: static; }
   .pay-toggle { grid-template-columns: 1fr; }
 }
+
+/* Shop intake (How paper arrives) — light layout only */
+.intake-public-note { margin-bottom: 0.85rem; }
+.intake-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.65rem;
+  margin-bottom: 0.75rem;
+}
+@media (min-width: 640px) {
+  .intake-grid { grid-template-columns: 1fr 1fr; }
+}
+.intake-sub { margin-top: 0.75rem; }
+.intake-sub[hidden] { display: none !important; }
+.check-row[hidden] { display: none !important; }
