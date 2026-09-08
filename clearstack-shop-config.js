@@ -1,6 +1,6 @@
 /**
- * ClearStack shop config — paste real Stripe Payment Link URLs when ready.
- * Until then, shop.html uses mailto fallback: “Stripe link coming — request quote”.
+ * ClearStack shop config — Stripe Payment Link URLs (mailto fallback if unset).
+ * shop.html uses mailto fallback: “Request card payment link”.
  *
  * Deposit Payment Links should be for the 50% deposit amounts at list price:
  *   Starter $44.50 · Binder $84.50 · Multi $149.50 · Box $199.50 (per box)
@@ -25,11 +25,11 @@ window.CLEARSTACK_SHOP = {
   tagline: "Paper in. Searchable book out.",
   confirmTo: "Mina.Fakhouri@Hotmail.com",
   confirmFromFuture: "hello@goclearstack.com",
-  mailtoFallback: "mailto:Mina.Fakhouri@Hotmail.com?subject=ClearStack%20deposit%20%E2%80%94%20Stripe%20link%20coming",
+  mailtoFallback: "mailto:Mina.Fakhouri@Hotmail.com?subject=ClearStack%20deposit%20%E2%80%94%20card%20payment",
   zelle: {
     displayName: "ClearStack",
-    tokenStatus: "pending Chase Business",
-    instructions: "Zelle to ClearStack — token pending Chase Business"
+    tokenStatus: "live",
+    instructions: "Zelle to ClearStack"
   },
   packages: {
     starter: { id: "starter", name: "Personal / Legal Starter", short: "Starter", price: 89, pages: "Up to 150 pages" },

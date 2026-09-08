@@ -710,7 +710,7 @@
       stripeBtn.href = link;
       stripeBtn.removeAttribute("data-fallback");
     } else {
-      stripeBtn.textContent = "Stripe link coming — request quote";
+      stripeBtn.textContent = "Request card payment link";
       const body = encodeURIComponent(
         "Hi ClearStack,\n\nI'd like to pay the card deposit for:\n\n" +
           summaryText(buildOrder(s2, m, "(pending)")) +
@@ -720,7 +720,7 @@
         "mailto:" +
         CFG.confirmTo +
         "?subject=" +
-        encodeURIComponent("ClearStack card deposit — Stripe link coming") +
+        encodeURIComponent("ClearStack card deposit — request payment link") +
         "&body=" +
         body;
       stripeBtn.setAttribute("data-fallback", "1");
