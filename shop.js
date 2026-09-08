@@ -24,6 +24,7 @@
     }
     const intake = (document.querySelector('input[name="intake"]:checked') || {}).value || "kit";
     const kitSize = (document.getElementById("kit-size") || {}).value || "letter";
+    const weightBand = (document.getElementById("weight-band") || {}).value || "5to10";
     const upsPickup = !!(document.getElementById("addon-ups-pickup") || {}).checked;
     // Van / operator drive NOT offered on public shop (legacy disabled).
     const vanMiles = null;
@@ -44,6 +45,7 @@
       qty,
       intake,
       kitSize,
+      weightBand,
       upsPickup,
       vanMiles,
       vanCity,
@@ -62,14 +64,17 @@
 
   /**
    * Locked math:
-   * - list = package (+ qty for Box) + paid add-ons (USB, shred, kit, ups-pickup, van, return-mail)
+   * - list = package (+ qty for Box) + paid add-ons (USB, shred, kit, ups-pickup, must-shipping, return-mail)
    *         + rush (+30% of subtotal before rush)
    * - USB free/auto on Multi (included, $0)
    * - Kit charge only when intake=kit
-   * - ups-pickup only when checked and intake kit|ship (default on kit|ship; stays on for physical paths unless unchecked)
-   * - Operator van NOT on public shop (CFG.van.enabled === false)
-   * - return-mail only when not kit (kit includes labels)
-   * - Zelle: −15% off package total only; add-ons at list
+   * - ups-pickup only when checked and intake kit|ship (inbound door collect; default on)
+   * - MUST shipping (hub→you): always on physical kit|ship|dropoff when outbound needed
+   *     · kit-out always · return originals (default) · USB if ordered
+   *     · shred = skip originals outbound; still charge for kit-out and/or USB
+   *     · upload = $0 · estimate by kit band; final invoice = ceil(UPS×1.5) — never show markup
+   * - return-mail only when not kit and not shred (kit includes labels; shred = no return)
+   * - Zelle: −15% off package total only; add-ons + shipping at list (no Zelle discount on shipping)
    * - Cards deposit: 50% of list
    * - Zelle deposit: 50% of (package×0.85 + add-ons + rush on that base)
    * Never expose operator cost or 1.5× markup to clients.
@@ -94,12 +99,50 @@
     // Legacy van: never charge on public shop
     const vanMilesCharge = 0;
 
-    const returnMailAllowed = s.intake !== "kit";
+    // Shred = privacy dispose → no original paper return / no return-mail
+    const returnMailAllowed = s.intake !== "kit" && !s.shred;
     const returnMailCharge =
       returnMailAllowed && s.returnMail ? round2(CFG.addons.returnMail.price) : 0;
 
+    // Must shipping Task 1 DROP (hub → client). Weight band = primary cost indicator.
+    const physical = s.intake === "kit" || s.intake === "ship" || s.intake === "dropoff";
+    const weightDef =
+      (CFG.weightBands && CFG.weightBands[s.weightBand]) ||
+      (CFG.weightBands && CFG.weightBands["5to10"]) ||
+      null;
+    let mustShipCharge = 0;
+    let mustShipQuoted = false;
+    let mustShipEstimate = 0;
+    let mustShipBand = null;
+    let mustShipBandLabel = null;
+    let mustShipNeeded = false;
+    if (physical) {
+      const usbWillShip = !!(s.usb || usbIncluded);
+      const returnOriginals = !s.shred; // default paper fate
+      const kitOut = s.intake === "kit";
+      mustShipNeeded = kitOut || returnOriginals || usbWillShip;
+      if (mustShipNeeded) {
+        mustShipBand = weightDef ? weightDef.id : s.weightBand || "5to10";
+        mustShipBandLabel = weightDef ? weightDef.label : mustShipBand;
+        if (weightDef && weightDef.quoted) {
+          mustShipQuoted = true;
+          mustShipEstimate = 0;
+          mustShipCharge = 0;
+        } else {
+          mustShipEstimate = Number(weightDef && weightDef.estimate != null ? weightDef.estimate : 28);
+          mustShipCharge = round2(mustShipEstimate);
+        }
+      }
+    }
+
     const addonsList = round2(
-      usbCharge + shredCharge + kitCharge + upsPickupCharge + vanMilesCharge + returnMailCharge
+      usbCharge +
+        shredCharge +
+        kitCharge +
+        upsPickupCharge +
+        vanMilesCharge +
+        returnMailCharge +
+        mustShipCharge
     );
     const subBeforeRush = round2(packageList + addonsList);
     const rushCharge = s.rush ? round2(subBeforeRush * CFG.addons.rush.pct) : 0;
@@ -126,6 +169,12 @@
       upsPickupCharge,
       vanMilesCharge,
       returnMailCharge,
+      mustShipCharge,
+      mustShipQuoted,
+      mustShipEstimate,
+      mustShipBand,
+      mustShipBandLabel,
+      mustShipNeeded,
       addonsList,
       rushCharge,
       listTotal,
@@ -140,6 +189,7 @@
 
   function operatorSopLines(s, m) {
     const lines = ["Operator SOP (labels / logistics — after deposit):"];
+    lines.push("• TWO UPS TASKS: Task 1 DROP hub→client · Task 2 PICKUP client→ClearStack PMB/Upland receive. Both legs bill ceil(UPS×1.5).");
     if (s.intake === "kit") {
       lines.push(
         "• KIT-OUT: mail empty prepaid UPS kit carton (" +
@@ -151,7 +201,21 @@
       lines.push("• RET / inbound: issue inbound UPS label from Upland hub after deposit; send tracking the hour it prints.");
     }
     if (m.upsPickupCharge > 0 || (s.upsPickup && (s.intake === "kit" || s.intake === "ship"))) {
-      lines.push("• ups-pickup: labels from Upland hub; schedule UPS Pickup at client door after deposit ($12).");
+      lines.push("• Task 2 PICKUP (ups-pickup $12 SKU): schedule UPS Pickup at client door → ClearStack PMB / Upland UPS Store receive.");
+    }
+    if (m.mustShipNeeded) {
+      lines.push(
+        "• Task 1 DROP must shipping (hub→client): bill ceil(UPS×1.5) after address — replace cart estimate" +
+          (m.mustShipQuoted
+            ? " (Quoted)"
+            : " (cart estimate $" + (m.mustShipEstimate || 0) + ")") +
+          ". Never show clients 150%/1.5×."
+      );
+    }
+    if (s.shred) {
+      lines.push("• Paper fate: CERTIFIED SHRED — skip return-originals on Task 1 DROP; bill shred $15/box; USB/cloud book may still DROP.");
+    } else if (s.intake !== "upload") {
+      lines.push("• Paper fate: RETURN ORIGINALS via Task 1 DROP (default) — must shipping applies.");
     }
     if (m.returnMailCharge > 0) {
       lines.push("• RET return-mail: issue return labels ($18) — originals mail-back after approval.");
@@ -160,7 +224,7 @@
       lines.push("• Drop-off: Upland, CA 91786 hub (cash OK). Street only on UPS label / appointment — never on site.");
     }
     if (s.intake === "upload") {
-      lines.push("• Upload: secure digital intake — no physical labels.");
+      lines.push("• Upload: secure digital intake — no physical labels / must shipping $0.");
     }
     if (lines.length === 1) lines.push("• (no label rails for this intake)");
     return lines;
@@ -174,6 +238,12 @@
       customer: { name: s.name, email: s.email, phone: s.phone },
       intake: s.intake,
       kitSize: s.intake === "kit" ? s.kitSize : null,
+      weightBand: s.intake === "upload" ? null : s.weightBand,
+      weightBandLabel:
+        s.intake === "upload"
+          ? null
+          : (CFG.weightBands && CFG.weightBands[s.weightBand] && CFG.weightBands[s.weightBand].label) ||
+            s.weightBand,
       upsPickup: !!(s.upsPickup && (s.intake === "kit" || s.intake === "ship")),
       vanMiles: null,
       vanCity: null,
@@ -184,6 +254,7 @@
         qty: s.qty,
         lineTotal: m.packageList
       },
+      paperFate: s.shred ? "shred" : s.intake === "upload" ? "n/a" : "return-originals",
       addons: {
         usb: { selected: s.usb || m.usbAuto, includedFree: m.usbIncluded, charge: m.usbCharge },
         rush: { selected: s.rush, charge: m.rushCharge },
@@ -198,9 +269,22 @@
           selected: !!(s.upsPickup && (s.intake === "kit" || s.intake === "ship")),
           charge: m.upsPickupCharge
         },
+        mustShipping: {
+          selected: !!m.mustShipNeeded,
+          label: (CFG.shipping && CFG.shipping.label) || "UPS shipping (hub → you)",
+          estimate: m.mustShipEstimate,
+          quoted: !!m.mustShipQuoted,
+          band: m.mustShipBand,
+          bandLabel: m.mustShipBandLabel,
+          weightBand: s.intake === "upload" ? null : s.weightBand,
+          charge: m.mustShipCharge,
+          note: m.mustShipNeeded
+            ? "Est. from weight · final after UPS rate, billed at listed shipping — operator: ceil(UPS×1.5)"
+            : null
+        },
         van: { selected: false, miles: null, city: null, charge: 0, note: "Not offered — hub automation + UPS Pickup" },
         returnMail: {
-          selected: s.intake !== "kit" && s.returnMail,
+          selected: s.intake !== "kit" && !s.shred && s.returnMail,
           charge: m.returnMailCharge
         },
         indexing: {
@@ -223,6 +307,8 @@
         orderTotal: m.orderTotal,
         kitCharge: m.kitCharge,
         upsPickupCharge: m.upsPickupCharge,
+        mustShipCharge: m.mustShipCharge,
+        mustShipEstimate: m.mustShipEstimate,
         vanMilesCharge: m.vanMilesCharge,
         returnMailCharge: m.returnMailCharge,
         zelleDiscountPct: CFG.zelleDiscount,
@@ -250,7 +336,24 @@
           order.kitSize +
           (order.addons.kit.quoted ? " (Quoted)" : " — " + money(order.addons.kit.charge))
         : null,
-      order.upsPickup ? "UPS Pickup at door: " + money(order.addons.upsPickup.charge) : "UPS Pickup: No",
+      order.upsPickup ? "UPS Pickup at door (inbound): " + money(order.addons.upsPickup.charge) : "UPS Pickup: No",
+      order.weightBandLabel
+        ? "Weight band: " + order.weightBandLabel + (order.weightBand ? " (" + order.weightBand + ")" : "")
+        : null,
+      order.addons.mustShipping && order.addons.mustShipping.selected
+        ? "UPS shipping (est. from weight): " +
+          (order.addons.mustShipping.quoted
+            ? "Quoted"
+            : money(order.addons.mustShipping.charge) +
+              " · final = after UPS rate, billed at our listed shipping") +
+          " · operator: bill ceil(UPS×1.5)"
+        : "UPS shipping (hub→you): $0 (upload / no outbound)",
+      "Paper fate: " +
+        (order.paperFate === "shred"
+          ? "Certified shred for privacy (no original return)"
+          : order.paperFate === "return-originals"
+            ? "Return originals via UPS (default)"
+            : "n/a"),
       "USB encrypted: " +
         (order.addons.usb.includedFree
           ? "Included (Multi)"
@@ -281,14 +384,19 @@
         ? "Zelle memo: " + order.orderId + " · phone (626) 779-6345"
         : null,
       "",
-      "— UPS / LABELS —",
+      "— UPS / LABELS (TWO TASKS) —",
       "Hub: Upland, CA 91786 — street on UPS label PDF after deposit only (never on site / email body)",
+      "Task 1 DROP hub→client · Task 2 PICKUP client→ClearStack PMB / Upland receive — both ceil(UPS×1.5)",
       order.kitSize ? "KIT-OUT prepaid UPS kit after deposit posts" : null,
-      order.upsPickup ? "Schedule UPS Pickup at client door after deposit ($12) — impress path" : null,
+      order.upsPickup ? "Task 2 PICKUP: schedule UPS at client door after deposit ($12) → Upland receive" : null,
+      order.addons.mustShipping && order.addons.mustShipping.selected
+        ? "Task 1 DROP must shipping — bill ceil(UPS×1.5); cart showed estimate"
+        : null,
       order.intake === "ship" || (order.intake === "kit" && !order.upsPickup)
         ? "Issue inbound / RET label from Upland hub after deposit; tracking the hour it prints"
         : null,
       order.addons.returnMail && order.addons.returnMail.selected ? "Return-mail labels after approval" : null,
+      order.paperFate === "shred" ? "SHRED — do not return originals" : null,
       "",
       "— PLAN (operator SOP) —",
       ...(order.operatorSop || []),
@@ -326,31 +434,79 @@
     const upsEl = document.getElementById("addon-ups-pickup");
     const returnEl = document.getElementById("addon-return-mail");
     const returnRow = document.getElementById("return-mail-row");
+    const shredEl = document.getElementById("addon-shred");
+    const fateReturn = document.getElementById("fate-return");
+    const fateShred = document.getElementById("fate-shred");
+    const mustShipNote = document.getElementById("must-ship-note");
+
+    const weightWrap = document.getElementById("weight-band-wrap");
+    const weightEl = document.getElementById("weight-band");
 
     if (kitWrap) kitWrap.hidden = s.intake !== "kit";
     if (upsWrap) upsWrap.hidden = !(s.intake === "kit" || s.intake === "ship");
+    // Weight band required on physical intakes only (kit|ship|dropoff)
+    if (weightWrap) {
+      const needWeight = s.intake === "kit" || s.intake === "ship" || s.intake === "dropoff";
+      weightWrap.hidden = !needWeight;
+      if (weightEl) {
+        weightEl.required = needWeight;
+        weightEl.disabled = !needWeight;
+      }
+    }
 
-    // UPS Pickup available for kit|ship only (featured). Disabled for dropoff/upload. Van never offered.
+    // Task 2 PICKUP (ups-pickup $12) for kit|ship only. Disabled for dropoff/upload. Van never offered.
     if (upsEl) {
       if (s.intake === "dropoff" || s.intake === "upload") {
         upsEl.checked = false;
         upsEl.disabled = true;
       } else {
         upsEl.disabled = false;
-        // kit|ship: keep default checked ($12) unless user explicitly unchecked
         if (!upsEl.dataset.userTouched) upsEl.checked = true;
       }
     }
 
-    // return-mail only if not kit (kit includes labels)
+    // Sync paper-fate radios ↔ shred checkbox (mutual: return originals vs shred)
+    if (fateReturn && fateShred && shredEl) {
+      if (s.intake === "upload") {
+        fateReturn.checked = true;
+        fateShred.checked = false;
+        shredEl.checked = false;
+        fateReturn.disabled = true;
+        fateShred.disabled = true;
+      } else {
+        fateReturn.disabled = false;
+        fateShred.disabled = false;
+        if (shredEl.checked) {
+          fateShred.checked = true;
+          fateReturn.checked = false;
+        } else {
+          fateReturn.checked = true;
+          fateShred.checked = false;
+        }
+      }
+    }
+
+    // return-mail only if not kit and not shred (kit includes labels; shred = no original return)
     if (returnEl) {
-      if (s.intake === "kit") {
+      if (s.intake === "kit" || s.shred || s.intake === "upload") {
         returnEl.checked = false;
         returnEl.disabled = true;
         if (returnRow) returnRow.hidden = true;
       } else {
         returnEl.disabled = false;
         if (returnRow) returnRow.hidden = false;
+      }
+    }
+
+    if (mustShipNote) {
+      if (s.intake === "upload") {
+        mustShipNote.textContent = "Upload-only: no UPS Task 1 DROP shipping.";
+      } else if (s.shred) {
+        mustShipNote.textContent =
+          "Shred selected — skip return-originals on Task 1 DROP. Must shipping still applies for prepaid kit-out and/or USB if ordered.";
+      } else {
+        mustShipNote.textContent =
+          "Task 1 DROP (hub→you) shipping required. Pick a weight band — cart shows estimate; final after UPS rate on deposit invoice.";
       }
     }
 
@@ -408,9 +564,27 @@
     }
     if (m.upsPickupCharge > 0) {
       bits.push(
-        "<div class=\"cart-line\"><span>UPS Pickup</span><strong>" +
+        "<div class=\"cart-line\"><span>UPS Pickup at door (Task 2)</span><strong>" +
           money(m.upsPickupCharge) +
           "</strong></div>"
+      );
+    }
+    if (m.mustShipNeeded) {
+      bits.push(
+        "<div class=\"cart-line\"><span>UPS shipping (est. from weight" +
+          (m.mustShipBandLabel ? ": " + m.mustShipBandLabel : "") +
+          ")" +
+          (m.mustShipQuoted
+            ? " — Quoted"
+            : " — " + money(m.mustShipCharge) + " · final after UPS rate") +
+          "</span><strong>" +
+          (m.mustShipQuoted ? "Quoted" : money(m.mustShipCharge)) +
+          "</strong></div>"
+      );
+    }
+    if (!s2.shred && s2.intake !== "upload") {
+      bits.push(
+        "<div class=\"cart-line muted\"><span>Paper fate: return originals (Task 1 DROP)</span><strong></strong></div>"
       );
     }
     if (m.usbIncluded || s2.usb) {
@@ -503,6 +677,16 @@
       document.getElementById("cust-name").focus();
       return;
     }
+    const needWeight =
+      s2.intake === "kit" || s2.intake === "ship" || s2.intake === "dropoff";
+    if (needWeight && !s2.weightBand) {
+      const err = document.getElementById("shop-err");
+      err.hidden = false;
+      err.textContent = "Select an approximate weight band — it sets your UPS shipping estimate.";
+      const wb = document.getElementById("weight-band");
+      if (wb) wb.focus();
+      return;
+    }
     document.getElementById("shop-err").hidden = true;
     const m = compute(s2);
     const order = buildOrder(s2, m);
@@ -565,7 +749,32 @@
       body;
   }
 
-  // Featured default: kit|ship + UPS Pickup ($12) checked; stay on for physical add-ons unless user unchecks.
+  // Paper fate mutual choice: return originals (default) vs shred for privacy
+  function applyPaperFate(fate) {
+    const shredEl = document.getElementById("addon-shred");
+    const returnEl = document.getElementById("addon-return-mail");
+    if (!shredEl) return;
+    if (fate === "shred") {
+      shredEl.checked = true;
+      if (returnEl) {
+        returnEl.checked = false;
+      }
+    } else {
+      shredEl.checked = false;
+    }
+    renderCart();
+  }
+  document.querySelectorAll('input[name="paper-fate"]').forEach((el) => {
+    el.addEventListener("change", () => applyPaperFate(el.value));
+  });
+  const shredInit = document.getElementById("addon-shred");
+  if (shredInit) {
+    shredInit.addEventListener("change", () => {
+      applyPaperFate(shredInit.checked ? "shred" : "return");
+    });
+  }
+
+  // Featured default: kit|ship + UPS Pickup ($12) Task 2; stay on unless user unchecks.
   document.querySelectorAll('input[name="intake"]').forEach((el) => {
     el.addEventListener("change", () => {
       const ups = document.getElementById("addon-ups-pickup");

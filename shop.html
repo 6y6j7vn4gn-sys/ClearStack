@@ -93,10 +93,11 @@
     <div class="form-card shop-card">
       <h2 class="shop-h2">2 · How paper arrives</h2>
       <div class="ups-impress-banner" role="note">
-        <span class="badge">UPS success rail</span>
-        <h3>UPS Pickup at your door — $12</h3>
-        <p><strong>Impress path:</strong> Order → package → prepaid UPS kit → <strong>UPS Pickup ($12)</strong> → deposit → labels from the <strong>Upland, CA 91786 hub</strong> → UPS comes to you. Hub street appears only on your UPS label PDF after deposit — never on this website.</p>
-        <p class="ups-premium-note">Shipping &amp; materials billed as listed add-ons.</p>
+        <span class="badge">UPS required · two tasks</span>
+        <h3>UPS picks up from our hub and drops at your address — shipping required</h3>
+        <p><strong>Task 1 · DROP</strong> (hub → you): prepaid kit, finished searchable book/USB, or return originals — <strong>shipping is mandatory</strong> on every physical order. Cart shows an estimate; final amount is set after we rate your address.</p>
+        <p><strong>Task 2 · PICKUP</strong> (your door → our Upland receive): optional/default <strong>UPS Pickup at your door — $12</strong> to collect sealed paper. Hub street appears only on your UPS label PDF after deposit — never on this website.</p>
+        <p class="ups-premium-note" id="must-ship-note">Task 1 DROP (hub→you) shipping required on every physical order. Estimate in cart; final after UPS rate on deposit invoice.</p>
       </div>
       <div class="intake-grid" role="radiogroup" aria-label="How paper arrives">
         <label class="pay-option">
@@ -131,17 +132,45 @@
         </select>
       </div>
 
+      <div id="weight-band-wrap" class="intake-sub">
+        <label for="weight-band">Approximate weight of items <span class="badge">Required</span></label>
+        <select id="weight-band" name="weightBand" required>
+          <option value="under5">Under 5 lb — shipping est. $18</option>
+          <option value="5to10" selected>5–10 lb — shipping est. $28</option>
+          <option value="10to20">10–20 lb — shipping est. $38</option>
+          <option value="20to40">20–40 lb — shipping est. $52</option>
+          <option value="40to70">40–70 lb — shipping est. $78</option>
+          <option value="over70">Over 70 lb — Quoted</option>
+        </select>
+        <p class="note">Weight sets your UPS shipping estimate (hub → you). Final amount after we rate your address — billed as listed shipping.</p>
+      </div>
+
       <div id="ups-pickup-wrap" class="intake-sub">
         <label class="check-row">
           <input type="checkbox" id="addon-ups-pickup" checked>
-          <span><strong>UPS Pickup at your door — $12</strong> <span class="prose-muted">(recommended · UPS comes to you)</span></span>
+          <span><strong>UPS Pickup at your door — $12</strong> <span class="prose-muted">(Task 2 · recommended · collects paper to our Upland receive)</span></span>
         </label>
       </div>
     </div>
 
     <div class="form-card shop-card">
       <h2 class="shop-h2">3 · Add-ons</h2>
-      <p class="note">Physical jobs: UPS Pickup at your door after deposit ($12). Shipping &amp; materials billed as listed add-ons.</p>
+      <p class="note">Physical jobs include <strong>Task 1 DROP shipping</strong> (hub→you, estimate in cart). Task 2 door pickup is $12 when selected. Materials billed as listed.</p>
+
+      <h3 class="shop-h2" style="font-size:1.05rem;margin-top:.5rem">Paper fate (after approval)</h3>
+      <p class="note">Choose one. Default is return originals via UPS (Task 1 DROP). Shred skips returning originals for privacy.</p>
+      <div class="intake-grid" role="radiogroup" aria-label="Paper fate" style="margin-bottom:1rem">
+        <label class="pay-option">
+          <input type="radio" name="paper-fate" id="fate-return" value="return" checked>
+          <span><strong>Return originals via UPS</strong> <span class="badge">Default</span><br><span class="prose-muted">Task 1 DROP back to you · shipping required</span></span>
+        </label>
+        <label class="pay-option">
+          <input type="radio" name="paper-fate" id="fate-shred" value="shred">
+          <span><strong>Certified shred for privacy</strong> — <strong>$15/box</strong><br><span class="prose-muted">No original paper return · USB/cloud book may still ship</span></span>
+        </label>
+      </div>
+      <input type="checkbox" id="addon-shred" hidden aria-hidden="true">
+
       <label class="check-row">
         <input type="checkbox" id="addon-usb">
         <span>USB encrypted <strong>+$27</strong> <span class="prose-muted" id="usb-hint">Free / auto on Multi</span></span>
@@ -150,13 +179,9 @@
         <input type="checkbox" id="addon-rush">
         <span>Rush <strong>+30%</strong> of project subtotal (when capacity allows)</span>
       </label>
-      <label class="check-row">
-        <input type="checkbox" id="addon-shred">
-        <span>Certified shred <strong>$15/box</strong></span>
-      </label>
       <label class="check-row" id="return-mail-row">
         <input type="checkbox" id="addon-return-mail">
-        <span>Return-mail labels <strong>+$18</strong> <span class="prose-muted">(not needed for prepaid kit)</span></span>
+        <span>Return-mail labels <strong>+$18</strong> <span class="prose-muted">(not needed for prepaid kit · hidden if shred)</span></span>
       </label>
       <label class="check-row">
         <input type="checkbox" id="addon-indexing">

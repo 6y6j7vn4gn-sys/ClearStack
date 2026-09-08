@@ -12,8 +12,13 @@
  *   Kits (carton + label materials approx): mailer ~$26→$39 · small ~$43→$65 · letter ~$52→$78
  *   legal ~$61→$92 · medium ~$77→$116 · large ~$123→$185 · xl ~$165→$248 · custom = Quoted
  * Van ($9/mi): LEGACY / NOT offered on public shop — Mina does not drive to clients.
- * Automation starts at Upland, CA 91786 hub. Impress path = prepaid kit + UPS Pickup $12 (default on kit|ship & physical add-on paths).
- * Receiving: “Upland hub — street on your UPS label after deposit.” Never invent PMB #; never publish home street.
+ * Automation at Upland, CA 91786 hub. TWO UPS TASKS from Mina account:
+ *   Task 1 DROP hub→client (kit / book+USB / return originals unless shred) — must shipping.
+ *   Task 2 PICKUP client door→ClearStack PMB / Upland UPS Store (ups-pickup $12 SKU).
+ * Each leg: sell = ceil(actual UPS.com × 1.5). Never free. Never show clients “150%” / 1.5×.
+ * Cart estimate from CLIENT WEIGHT BAND (primary). Kit size = materials price only.
+ * Default paper fate = RETURN ORIGINALS. Exception: shred $15/box skips originals return.
+ * Never invent PMB #; never publish home street / 371 D.
  */
 window.CLEARSTACK_SHOP = {
   brand: "ClearStack",
@@ -64,11 +69,48 @@ window.CLEARSTACK_SHOP = {
   },
   hubPublic: "Upland, CA 91786 hub — street on your UPS label after deposit",
 
+  /**
+   * Must shipping — Task 1 DROP (hub → client). Cart estimate from CLIENT WEIGHT BAND (primary).
+   * Kit size only prices kit materials. Final invoice = ceil(actual UPS × 1.5) after address.
+   * Upload = $0. Shred skips return-originals on Task 1; kit-out / USB DROP still billed when needed.
+   * Never show clients “150%” / 1.5× / cost.
+   */
+  shipping: {
+    must: true,
+    label: "UPS shipping (hub → you)",
+    mode: "actual_x1_5",
+    note: "Final amount = UPS rate after address; billed on deposit invoice. Cart shows estimate from weight band."
+  },
+  /**
+   * Weight bands = shipping cost indicator. Sell already ~1.5× typical ground (round dollars).
+   * over70 = Quoted (not cart-billed).
+   */
+  weightBands: {
+    under5:  { id: "under5",  label: "Under 5 lb",   estimate: 18 },
+    "5to10": { id: "5to10",   label: "5–10 lb",      estimate: 28 },
+    "10to20":{ id: "10to20",  label: "10–20 lb",     estimate: 38 },
+    "20to40":{ id: "20to40",  label: "20–40 lb",     estimate: 52 },
+    "40to70":{ id: "40to70",  label: "40–70 lb",     estimate: 78 },
+    over70:  { id: "over70",  label: "Over 70 lb",   estimate: 0, quoted: true }
+  },
+  /** Legacy kit-band approx (ops reference only — cart uses weightBands). */
+  shippingEstimates: {
+    mailer: 18,
+    small: 24,
+    letter: 28,
+    legal: 32,
+    medium: 38,
+    large: 48,
+    xl: 58,
+    custom: 0,
+    default: 28
+  },
+
   addons: {
     usb: { id: "usb", label: "Encrypted USB", price: 27, note: "Free / included on Multi" },
     rush: { id: "rush", label: "24-Hour Rush", pct: 0.30 },
-    shred: { id: "shred", label: "Certified shred", pricePerBox: 15 },
-    returnMail: { id: "return-mail", label: "Return-mail labels", price: 18, note: "Hidden when kit (labels included)" },
+    shred: { id: "shred", label: "Certified shred for privacy", pricePerBox: 15, note: "Mutual with return originals — when on, no original paper return / hide return-mail" },
+    returnMail: { id: "return-mail", label: "Return-mail labels", price: 18, note: "Hidden when kit (labels included) or when shred selected" },
     upsPickup: { id: "ups-pickup", label: "UPS Pickup at your door", price: 12, note: "Default on for kit|ship; stays on for physical collection paths unless client unchecks" },
     indexing: { id: "indexing", label: "Custom indexing note", hourly: 35, quoted: true }
   },
