@@ -127,20 +127,20 @@
             </div>
             <div>
               <label>Pay method</label>
-              <input value="Zelle (Rule A courtesy)" readonly>
+              <input value="Zelle (same −15% as Visa/MC)" readonly>
             </div>
           </div>
           <div class="estimate">
             <h3>Live estimate (updates as they type)</h3>
             <table>
               <tr><td>Standard Binder Archival</td><td>$169.00</td></tr>
+              <tr><td>−15% off package total</td><td>−$25.35</td></tr>
+              <tr><td>Package after discount</td><td>$143.65</td></tr>
               <tr><td>Encrypted USB</td><td>$25.00</td></tr>
-              <tr><td>Order total</td><td>$194.00</td></tr>
-              <tr><td>Deposit due (50% of package)</td><td>$84.50</td></tr>
-              <tr><td>Zelle courtesy (deposit &gt; $50)</td><td>−$50.00</td></tr>
-              <tr><td class="due">Pay now (Zelle)</td><td class="due">$34.50</td></tr>
+              <tr><td>Order total</td><td>$168.65</td></tr>
+              <tr><td class="due">Pay now (50% deposit · Zelle)</td><td class="due">$71.83</td></tr>
             </table>
-            <p class="note">USB $25 stays on the balance invoice after delivery. Cards would show full $84.50 deposit (no courtesy).</p>
+            <p class="note">USB $25 stays on the balance invoice after delivery. Visa/Mastercard via Stripe shows the same −15% package price and same $71.83 deposit.</p>
           </div>
           <a class="btn" href="#invoice">Place order · get deposit invoice →</a>
         </div>
@@ -183,18 +183,18 @@
             <thead><tr><th>Description</th><th class="r">Amount</th></tr></thead>
             <tbody>
               <tr><td>Standard Binder Archival · ~450 pages<br><span class="note">Searchable digital book + custom bookmarking / indexing</span></td><td class="r">$169.00</td></tr>
+              <tr><td>−15% off package total</td><td class="r">−$25.35</td></tr>
               <tr><td>Encrypted USB (balance later)</td><td class="r">$25.00</td></tr>
-              <tr><td><b>50% package deposit</b></td><td class="r">$84.50</td></tr>
-              <tr><td>Zelle intake courtesy (Rule A)</td><td class="r">−$50.00</td></tr>
+              <tr><td><b>50% package deposit</b> (after −15%)</td><td class="r">$71.83</td></tr>
             </tbody>
           </table>
           <div class="tot">
-            <div><span>Order total</span><span>$194.00</span></div>
-            <div><span>Balance after deposit</span><span>$109.50*</span></div>
-            <div class="big"><span>Pay now (Zelle)</span><span>$34.50</span></div>
+            <div><span>Order total</span><span>$168.65</span></div>
+            <div><span>Balance after deposit</span><span>$96.82*</span></div>
+            <div class="big"><span>Pay now (Zelle)</span><span>$71.83</span></div>
           </div>
-          <p class="note">*Balance = remaining package $84.50 + USB $25. Pay-now is deposit after courtesy only.</p>
-          <p class="note"><b>Zelle:</b> Send <b>$34.50</b> to ClearStack business tag (token confirmed before clients see it). Memo: <code>CS-DEMO-1001</code></p>
+          <p class="note">*Balance = remaining package $71.82 + USB $25. Visa/MC via Stripe uses the same −15% and same deposit.</p>
+          <p class="note"><b>Zelle:</b> Send <b>$71.83</b> to ClearStack business tag (token confirmed before clients see it). Memo: <code>CS-DEMO-1001</code></p>
         </div>
       </section>
 
@@ -207,7 +207,7 @@
             <div class="mail-bar">
               <div><b>From:</b> ClearStack Orders &lt;orders@clearstack.example&gt;</div>
               <div><b>To:</b> jordan@iebuildgroup.example</div>
-              <div><b>Subject:</b> ClearStack order received · CS-DEMO-1001 · pay $34.50 deposit</div>
+              <div><b>Subject:</b> ClearStack order received · CS-DEMO-1001 · pay $71.83 deposit</div>
             </div>
             <div class="mail-hero">
               <img src="brand/exports/media-unlock/wordmark-lockup-v2.png" alt="ClearStack">
@@ -222,12 +222,12 @@
                   <li>Package: Standard Binder Archival · $169</li>
                   <li>Est. pages: ~450</li>
                   <li>Delivery: encrypted cloud link + USB (+$25 on balance)</li>
-                  <li><b>Deposit due now (Zelle): $34.50</b></li>
+                  <li><b>Deposit due now (Zelle): $71.83</b> (−15% package · same as Visa/MC)</li>
                 </ul>
               </div>
               <p><b>Next steps</b></p>
               <ol>
-                <li>Send Zelle <b>$34.50</b> with memo <code>CS-DEMO-1001</code></li>
+                <li>Send Zelle <b>$71.83</b> with memo <code>CS-DEMO-1001</code></li>
                 <li>Reply to this email with your Zelle confirmation</li>
                 <li>We’ll send the commercial mailbox / intake instructions (never a home address)</li>
                 <li>After you approve the book, pay the balance · choose return or shred for originals</li>
@@ -239,7 +239,7 @@
         </div>
       </section>
     </div>
-    <p class="legend">DEMO ONLY · fictional client · ClearStack brand · Rule A Zelle courtesy · USB on balance · fictional demo only — ClearStack brand.</p>
+    <p class="legend">DEMO ONLY · fictional client · ClearStack brand · −15% off package (Visa/MC or Zelle) · USB on balance · fictional demo only — ClearStack brand.</p>
   </div>
 </body>
 </html>
